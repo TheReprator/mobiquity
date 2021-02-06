@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="map_setLocation">Set Location</string>
+    <string name="app_name_notification">Mobiquity</string>
+    <string name="alert_location">Please enable your location to navigate map properly to your current location</string>
+
+    <integer name="integer_three_seconds">3000</integer>
+</resources>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="reprator.mobiquity.setting.SettingsViewModal" />
+
+        <import type="reprator.mobiquity.setting.SettingBindingUtilKt" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_dark"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_section" />
+
+            <TextView
+                android:id="@+id/setting_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/setting_configure"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_section" />
+
+            <TextView
+                android:id="@+id/setting_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="start"
+                android:text="@string/setting_measurement_title"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_subSection" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checkedButton="@={SettingBindingUtilKt.measurementTypeToButtonId(viewModel.measureMentType)}"
+                android:orientation="vertical">
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/setting_measureUnit_standard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/setting_drawable_padding"
+                    android:text="@string/setting_unit_standard" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/setting_measureUnit_metric"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/setting_drawable_padding"
+                    android:text="@string/setting_unit_metric" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/setting_measureUnit_imperial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/setting_drawable_padding"
+                    android:text="@string/setting_unit_imperial" />
+            </RadioGroup>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_section" />
+
+            <CheckBox
+                android:id="@+id/setting_"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:checkMark="@null"
+                android:checked="@={viewModel.isChecked()}"
+                android:gravity="center_vertical"
+                android:text="@string/setting_clearPlaces"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_section" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/setting_saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:onClick="@{() -> viewModel.saveConfiguration()}"
+                android:text="@string/settings_save" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

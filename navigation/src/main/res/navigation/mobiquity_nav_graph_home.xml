@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobiquity_nav_graph_home"
+    app:startDestination="@id/navigation_home_addLocation"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/navigation_home_addLocation"
+        android:name="reprator.mobiquity.addcity.AddCityFragment"
+        android:label="Add Location"
+        tools:layout="@layout/fragment_addcity" />
+
+    <fragment
+        android:id="@+id/navigation_home_bookmarkLocations"
+        android:name="reprator.mobiquity.saveCity.ui.SaveCityFragment"
+        android:label="BookMark Location"
+        tools:layout="@layout/fragment_savecity">
+
+        <action
+            android:id="@+id/navigation_home_bookmarkLocations_to_navigation_cityDetail"
+            app:destination="@id/navigation_cityDetail" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_cityDetail"
+        android:name="reprator.mobiquity.city.ui.CityDetailFragment"
+        android:label="City Detail Fragment"
+        tools:layout="@layout/fragment_city_detail">
+
+        <argument
+            android:name="latLng"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
+</navigation>

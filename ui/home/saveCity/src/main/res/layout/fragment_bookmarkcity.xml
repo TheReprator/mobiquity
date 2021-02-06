@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="saveCityAdapter"
+            type="reprator.mobiquity.saveCity.ui.SaveCityAdapter" />
+
+        <variable
+            name="saveCityViewModal"
+            type="reprator.mobiquity.saveCity.ui.SaveCityViewModal" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/saveCity_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/saveCity_loaderErrorHandler"
+            clickListener="@{() -> saveCityViewModal.retryGetBookMarkLocations()}"
+            exceptionError="@{saveCityViewModal._isError}"
+            isError="@{TextUtils.isEmpty(saveCityViewModal._isError) ? false : true}"
+            isLoading="@{saveCityViewModal._isLoading}"
+            isEmpty="@{TextUtils.isEmpty(saveCityViewModal._isError) &amp;&amp; !saveCityViewModal._isLoading &amp;&amp; saveCityViewModal.bookMarkList.empty }"
+            layout="@layout/layout_loader_error_empty" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/saveCity_rec"
+            saveCityListAdapter="@{saveCityAdapter}"
+            selectedPositionHandler="@{saveCityViewModal}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</layout>

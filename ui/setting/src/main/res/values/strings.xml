@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="setting_configure">Please Configure Settings</string>
+    <string name="setting_unit_standard">Standard</string>
+    <string name="setting_unit_metric">Metric</string>
+    <string name="setting_unit_imperial">Imperial</string>
+    <string name="settings_save">Save Settings</string>
+    <string name="setting_measurement_title">Measurement Unit</string>
+    <string name="setting_clearPlaces">Clear BookMark Places</string>
+</resources>

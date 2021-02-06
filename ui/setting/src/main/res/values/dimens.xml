@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_major">30dp</dimen>
+    <dimen name="space_section">10dp</dimen>
+    <dimen name="space_subSection">5dp</dimen>
+    <dimen name="setting_drawable_padding">10dp</dimen>
+</resources>
