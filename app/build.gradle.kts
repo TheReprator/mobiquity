@@ -135,9 +135,6 @@ dependencies {
     implementation(Libs.AndroidX.Room.ktx)
     kapt(Libs.AndroidX.Room.compiler)
 
-    testImplementation(Libs.TestDependencies.Mockk.unitTest)
-    testImplementation(Libs.TestDependencies.truth)
-
     testImplementation(project(AppModules.moduleTest))
 
     androidTestImplementation(project(AppModules.moduleTest))

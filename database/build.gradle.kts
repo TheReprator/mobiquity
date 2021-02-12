@@ -18,5 +18,5 @@ dependencies {
     api(Libs.AndroidX.Room.common)
 
     api(Libs.Dagger.runtime)
-//kapt Libs.Dagger.compiler
+    testImplementation(project(AppModules.moduleTest))
 }
