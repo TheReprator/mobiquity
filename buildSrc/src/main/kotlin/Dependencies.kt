@@ -33,6 +33,8 @@ object AppModules {
     const val moduleHome = ":ui:home"
     const val moduleHomeAddCity = ":ui:home:addCity"
     const val moduleHomeSaveCity = ":ui:home:saveCity"
+    const val moduleTest = ":test-shared"
+    const val moduleAndroid = ":androidTest-shared"
 }
 
 object Libs {
@@ -43,6 +45,7 @@ object Libs {
         const val androidLibrary = "com.android.library"
         const val javaLibrary = "java-library"
         const val kotlinLibrary = "kotlin"
+        const val kotlinJVM = "jvm"
         const val kotlinAndroid = "android"
         const val kotlinAndroidExtensions = "android.extensions"
         const val kotlinKapt = "kapt"

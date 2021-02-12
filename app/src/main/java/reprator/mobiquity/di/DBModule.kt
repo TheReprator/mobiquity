@@ -17,7 +17,7 @@ import timber.log.Timber
 
 @InstallIn(SingletonComponent::class)
 @Module
-class DBCurrencyModule {
+class DBModule {
 
     companion object {
         private const val DATABASE_NAME = "currency_database"

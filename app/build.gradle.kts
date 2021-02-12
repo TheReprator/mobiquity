@@ -137,4 +137,9 @@ dependencies {
 
     testImplementation(Libs.TestDependencies.Mockk.unitTest)
     testImplementation(Libs.TestDependencies.truth)
+
+    testImplementation(project(AppModules.moduleTest))
+
+    androidTestImplementation(project(AppModules.moduleTest))
+    androidTestImplementation(project(AppModules.moduleAndroid))
 }
