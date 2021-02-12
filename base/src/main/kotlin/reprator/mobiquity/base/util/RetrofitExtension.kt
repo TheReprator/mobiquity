@@ -95,14 +95,3 @@ fun <T> Response<T>.toResult(): MobiQuityResult<T> = try {
 } catch (e: Exception) {
     ErrorResult(e)
 }
-
-@Suppress("REDUNDANT_INLINE_SUSPEND_FUNCTION_TYPE")
-suspend fun <T, E> Response<T>.toResult(mapper: suspend (T) -> E): MobiQuityResult<E> = try {
-    if (isSuccessful) {
-        Success(data = mapper(bodyOrThrow()), responseModified = isFromNetwork())
-    } else {
-        ErrorResult(toException())
-    }
-} catch (e: Exception) {
-    ErrorResult(e)
-}

@@ -3,7 +3,7 @@ include(":ui:home:saveCity")
 include(":ui:home:addCity")
 include(":ui:setting")
 include(":ui:help")
-include(":ui:city")
+include(":ui:cityDetail")
 include(":ui:home")
 include(
     ":app",

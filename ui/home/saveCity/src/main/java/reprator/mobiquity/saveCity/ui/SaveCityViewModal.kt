@@ -31,10 +31,6 @@ class SaveCityViewModal @ViewModelInject constructor(
 
     val _isError: MutableLiveData<String> = MutableLiveData("")
 
-    init {
-        getSavedLocationList()
-    }
-
     fun getSavedLocationList() {
 
         if (bookMarkList.value!!.isNotEmpty()) {

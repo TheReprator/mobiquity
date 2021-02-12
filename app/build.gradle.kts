@@ -109,7 +109,7 @@ dependencies {
     implementation(project(AppModules.moduleHome))
     implementation(project(AppModules.moduleHomeAddCity))
     implementation(project(AppModules.moduleHomeSaveCity))
-    implementation(project(AppModules.moduleCity))
+    implementation(project(AppModules.moduleCityDetail))
     implementation(project(AppModules.moduleHelp))
     implementation(project(AppModules.moduleSetting))
 

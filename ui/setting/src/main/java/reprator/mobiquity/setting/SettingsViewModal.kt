@@ -17,7 +17,6 @@ class SettingsViewModal @ViewModelInject constructor(
     private val settingPreferenceManager: SaveSettingPreferenceManager,
 ) : ViewModel() {
 
-
     val isSuccess = MutableLiveData<String>()
 
     val measureMentType = MutableLiveData(settingPreferenceManager.saveMeasureMentUnitType)

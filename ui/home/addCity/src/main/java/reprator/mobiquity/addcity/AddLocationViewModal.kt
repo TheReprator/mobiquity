@@ -15,11 +15,11 @@ import reprator.mobiquity.addcity.domain.usecase.LocationUseCase
 import reprator.mobiquity.base.extensions.computationalBlock
 import reprator.mobiquity.base.useCases.ErrorResult
 import reprator.mobiquity.base.useCases.MobiQuityResult
+import reprator.mobiquity.base.useCases.Success
 import reprator.mobiquity.base.util.AppCoroutineDispatchers
 import reprator.mobiquity.base_android.util.event.Event
 
 class AddLocationViewModal @ViewModelInject constructor(
-    @Assisted val savedStateHandle: SavedStateHandle,
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
     private val reverseGeoCoding: ReverseGeoCoding,
     private val locationUseCase: LocationUseCase
@@ -42,16 +42,17 @@ class AddLocationViewModal @ViewModelInject constructor(
 
     private suspend fun saveLocation(location: Location) {
         locationUseCase(location).catch {
-            _isError.value = Event(it.localizedMessage)
+            _isError.value = Event(it.localizedMessage!!)
         }.flowOn(appCoroutineDispatchers.main).collect {
             withContext(appCoroutineDispatchers.main) {
                 when (it) {
-                    is MobiQuityResult -> {
+                    is Success -> {
                         _isSuccess.value = Event(Unit)
                     }
                     is ErrorResult -> {
                         _isError.value = Event(it.message ?: "")
                     }
+                    else -> throw IllegalArgumentException()
                 }
             }
         }

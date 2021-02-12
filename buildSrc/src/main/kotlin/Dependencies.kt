@@ -28,7 +28,7 @@ object AppModules {
     const val moduleNavigation = ":navigation"
     const val moduleDatabase = ":database"
     const val moduleHelp = ":ui:help"
-    const val moduleCity = ":ui:city"
+    const val moduleCityDetail = ":ui:cityDetail"
     const val moduleSetting = ":ui:setting"
     const val moduleHome = ":ui:home"
     const val moduleHomeAddCity = ":ui:home:addCity"

@@ -37,10 +37,12 @@ class GetLocationRepositoryImpl @Inject constructor(
             is ErrorResult -> {
                 flowOf(ErrorResult(throwable = data.throwable, message = data.message))
             }
+
+            else -> throw IllegalArgumentException()
         }
     }
 
-    suspend fun clearTable() = suspendCancellableCoroutine<Unit> { cont ->
+    private suspend fun clearTable() = suspendCancellableCoroutine<Unit> { cont ->
         if (settingPreferenceManager.shouldClearSavedLocation)
             coroutineScope.launch {
                 dbManager.clearTable().catch { error ->

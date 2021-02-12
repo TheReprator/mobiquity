@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import reprator.mobiquity.base.util.isNull
 import reprator.mobiquity.base_android.util.ItemOffsetDecoration
 import reprator.mobiquity.saveCity.R
 import reprator.mobiquity.saveCity.databinding.FragmentBookmarkcityBinding
@@ -46,6 +47,9 @@ class SaveCityFragment : Fragment(R.layout.fragment_bookmarkcity), BookMarkItemC
 
         setUpRecyclerView()
         initializeObserver()
+
+        if(savedInstanceState.isNull())
+            viewModel.getSavedLocationList()
     }
 
     private fun setUpRecyclerView() {

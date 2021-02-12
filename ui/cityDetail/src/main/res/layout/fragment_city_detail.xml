@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="weatherAdapter"
+            type="reprator.mobiquity.cityDetail.ui.CityDetailAdapter" />
+
+        <variable
+            name="cityDetailViewModal"
+            type="reprator.mobiquity.cityDetail.CityDetailViewModal" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cityDetail_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/cityDetail_toolBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:title="some title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
+
+        <LinearLayout
+            android:id="@+id/cityDetail_today"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/cityDetail_gd_horizontal_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityDetail_toolBar">
+
+            <include
+                android:id="@+id/cityDetail_today_loaderErrorHandler"
+                clickListener="@{() -> cityDetailViewModal.retryTodayWeather()}"
+                exceptionError="@{cityDetailViewModal.errorMsgToday}"
+                isEmpty="@{TextUtils.isEmpty(cityDetailViewModal.errorMsgToday) &amp;&amp; !cityDetailViewModal.isLoadingTodayWeather &amp;&amp; cityDetailViewModal.todayWeatherItem == null }"
+                isError="@{TextUtils.isEmpty(cityDetailViewModal.errorMsgToday) ? false : true}"
+                isLoading="@{cityDetailViewModal.isLoadingTodayWeather}"
+                layout="@layout/layout_loader_error_empty" />
+
+            <include
+                layout="@layout/row_weather_data"
+                locationModal="@{cityDetailViewModal.todayWeatherItem}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/cityDetail_gd_horizontal_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.55" />
+
+        <LinearLayout
+            android:id="@+id/cityDetail_forecast"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cityDetail_gd_horizontal_bottom">
+
+            <include
+                android:id="@+id/cityDetail_forecast_loaderErrorHandler"
+                clickListener="@{() -> cityDetailViewModal.retryForeCastWeather()}"
+                exceptionError="@{cityDetailViewModal.errorMsgForeCast}"
+                isEmpty="@{TextUtils.isEmpty(cityDetailViewModal.errorMsgForeCast) &amp;&amp; !cityDetailViewModal.isLoadingForeCast &amp;&amp; cityDetailViewModal._foreCastWeatherList.empty }"
+                isError="@{TextUtils.isEmpty(cityDetailViewModal.errorMsgForeCast) ? false : true}"
+                isLoading="@{cityDetailViewModal.isLoadingForeCast}"
+                layout="@layout/layout_loader_error_empty" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cityDetail_forecast_rec"
+                recyclerListAdapter="@{weatherAdapter}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
