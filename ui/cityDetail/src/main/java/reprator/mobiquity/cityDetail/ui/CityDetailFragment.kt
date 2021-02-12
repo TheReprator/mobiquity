@@ -6,8 +6,11 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.base.util.isNull
+import reprator.mobiquity.base_android.util.ItemOffsetDecoration
 import reprator.mobiquity.cityDetail.CityDetailViewModal
 import reprator.mobiquity.cityDetail.R
 import reprator.mobiquity.cityDetail.databinding.FragmentCityDetailBinding
