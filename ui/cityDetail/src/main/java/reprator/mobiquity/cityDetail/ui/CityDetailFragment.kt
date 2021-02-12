@@ -59,7 +59,6 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
         initializeObserver()
 
         if(savedInstanceState.isNull()) {
-            viewModel.getTodayWeatherUseCase()
             viewModel.getForeCastWeatherUse()
         }
     }

@@ -14,7 +14,6 @@ import reprator.mobiquity.base.useCases.ErrorResult
 import reprator.mobiquity.base.useCases.Success
 import reprator.mobiquity.base.util.AppCoroutineDispatchers
 import reprator.mobiquity.cityDetail.domain.usecase.ForecastWeatherUseCase
-import reprator.mobiquity.cityDetail.domain.usecase.GetTodayWeatherUseCase
 import reprator.mobiquity.cityDetail.modals.LocationModal
 import reprator.mobiquity.cityDetail.modals.LocationRequestModal
 
@@ -22,7 +21,6 @@ class CityDetailViewModal @ViewModelInject constructor(
     @Assisted val savedStateHandle: SavedStateHandle,
     private val coroutineDispatcherProvider: AppCoroutineDispatchers,
     private val forecastWeatherUseCase: ForecastWeatherUseCase,
-    private val getTodayWeatherUseCase: GetTodayWeatherUseCase,
     private val settingPreferenceManager: SettingPreferenceManager
 ) : ViewModel() {
 
@@ -32,43 +30,11 @@ class CityDetailViewModal @ViewModelInject constructor(
     private val _errorMsgForeCast = MutableLiveData("")
     val errorMsgForeCast: LiveData<String> = _errorMsgForeCast
 
-    private val _isLoadingTodayWeather = MutableLiveData(true)
-    val isLoadingTodayWeather: LiveData<Boolean> = _isLoadingTodayWeather
-
-    private val _errorMsgToday = MutableLiveData("")
-    val errorMsgToday: LiveData<String> = _errorMsgToday
-
     private val _todayWeatherItem = MutableLiveData<LocationModal?>()
     val todayWeatherItem: LiveData<LocationModal?> = _todayWeatherItem
 
     @VisibleForTesting
     val _foreCastWeatherList = MutableLiveData(emptyList<LocationModal>())
-
-
-    fun getTodayWeatherUseCase() {
-        computationalBlock {
-            getTodayWeatherUseCase(createRequestModal()).flowOn(coroutineDispatcherProvider.io).catch { e ->
-                _errorMsgToday.value = e.localizedMessage
-            }.onStart {
-                _isLoadingTodayWeather.value = true
-            }.onCompletion {
-                _isLoadingTodayWeather.value = false
-            }.flowOn(coroutineDispatcherProvider.main)
-                .collect {
-                    withContext(coroutineDispatcherProvider.main) {
-                        when (it) {
-                            is Success -> {
-                                _todayWeatherItem.value = it.get()
-                            }
-                            is ErrorResult -> {
-                                _errorMsgToday.value = it.message!!
-                            }
-                            else -> throw IllegalArgumentException()
-                        }
-                    }
-                }
-        }
-    }
 
     fun getForeCastWeatherUse() {
         computationalBlock {
@@ -84,7 +50,8 @@ class CityDetailViewModal @ViewModelInject constructor(
                     withContext(coroutineDispatcherProvider.main) {
                         when (it) {
                             is Success -> {
-                                _foreCastWeatherList.value = it.data
+                                _todayWeatherItem.value = it.data[0]
+                                _foreCastWeatherList.value = it.data.drop(1)
                             }
                             is ErrorResult -> {
                                 _errorMsgForeCast.value = it.message ?: it.throwable!!.message
@@ -96,11 +63,6 @@ class CityDetailViewModal @ViewModelInject constructor(
         }
     }
 
-    fun retryTodayWeather() {
-        _errorMsgToday.value = ""
-        getTodayWeatherUseCase()
-    }
-
     fun retryForeCastWeather() {
         _errorMsgForeCast.value = ""
         getForeCastWeatherUse()
@@ -108,7 +70,11 @@ class CityDetailViewModal @ViewModelInject constructor(
 
     private fun createRequestModal(): LocationRequestModal {
         val latLng = savedStateHandle.get<String>("latLng")!!.split(",")
-        return LocationRequestModal(latLng[0], latLng[1], settingPreferenceManager.measureMentUnitType.name)
+        return LocationRequestModal(
+            latLng[0],
+            latLng[1],
+            settingPreferenceManager.measureMentUnitType.name
+        )
     }
 
     private fun computationalBlock(

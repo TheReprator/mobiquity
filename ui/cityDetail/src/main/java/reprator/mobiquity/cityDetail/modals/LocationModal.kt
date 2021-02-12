@@ -1,7 +1,5 @@
 package reprator.mobiquity.cityDetail.modals
 
-import java.util.*
-
 data class LocationModal(
     val placeName: String,
     val weather: String,
