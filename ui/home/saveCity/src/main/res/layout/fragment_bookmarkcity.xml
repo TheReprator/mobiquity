@@ -28,7 +28,7 @@
             exceptionError="@{saveCityViewModal._isError}"
             isError="@{TextUtils.isEmpty(saveCityViewModal._isError) ? false : true}"
             isLoading="@{saveCityViewModal._isLoading}"
-            isEmpty="@{TextUtils.isEmpty(saveCityViewModal._isError) &amp;&amp; !saveCityViewModal._isLoading &amp;&amp; saveCityViewModal.bookMarkList.empty }"
+            isEmpty="@{TextUtils.isEmpty(saveCityViewModal._isError) &amp;&amp; !saveCityViewModal._isLoading &amp;&amp; saveCityViewModal.bookMarkListManipulated.empty }"
             layout="@layout/layout_loader_error_empty" />
 
         <androidx.recyclerview.widget.RecyclerView

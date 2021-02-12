@@ -12,14 +12,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.databinding.ActivityMainBinding
+import reprator.mobiquity.navigation.DATA_CONSTANT
 import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    companion object {
-        private const val DATA_CONSTANT = "sendDataToHost"
-    }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -46,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         getNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
             DATA_CONSTANT
         )?.observe(this, {
+
             if (it) {
                 binding.drawerAppBar.toolbar.visibility = View.GONE
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

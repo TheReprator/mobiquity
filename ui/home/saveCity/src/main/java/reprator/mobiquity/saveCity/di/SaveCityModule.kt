@@ -4,10 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.FragmentComponent
 import kotlinx.coroutines.CoroutineScope
 import reprator.mobiquity.base.SaveSettingPreferenceManager
 import reprator.mobiquity.base.SettingPreferenceManager
 import reprator.mobiquity.database.DBManager
+import reprator.mobiquity.navigation.AppNavigator
+import reprator.mobiquity.navigation.SavedCityNavigator
 import reprator.mobiquity.saveCity.data.repository.DeleteLocationRepositoryImpl
 import reprator.mobiquity.saveCity.data.repository.GetLocationRepositoryImpl
 import reprator.mobiquity.saveCity.data.repository.mapper.DeleteLocationMapper
@@ -65,5 +68,12 @@ class SaveCityModule {
         locationRepository: GetLocationRepository
     ): GetLocationUseCase {
         return GetLocationUseCase(locationRepository)
+    }
+
+    @Provides
+    fun provideSavedCityNavigator(
+        appNavigator: AppNavigator
+    ): SavedCityNavigator {
+        return appNavigator
     }
 }

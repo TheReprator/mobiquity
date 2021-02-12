@@ -14,14 +14,12 @@ import reprator.mobiquity.base_android.util.ItemOffsetDecoration
 import reprator.mobiquity.cityDetail.CityDetailViewModal
 import reprator.mobiquity.cityDetail.R
 import reprator.mobiquity.cityDetail.databinding.FragmentCityDetailBinding
+import reprator.mobiquity.navigation.CityDetailNavigator
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
-
-    companion object{
-        private const val DATA_CONSTANT = "sendDataToHost"
-    }
 
     private var _binding: FragmentCityDetailBinding? = null
     private val binding get() = _binding!!
@@ -33,6 +31,9 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
 
     @Inject
     lateinit var cityDetailAdapter: CityDetailAdapter
+
+    @Inject
+    lateinit var cityDetailNavigator: CityDetailNavigator
 
     private val viewModel: CityDetailViewModal by viewModels()
 
@@ -50,6 +51,7 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
         _binding = FragmentCityDetailBinding.bind(view).also {
             it.weatherAdapter = cityDetailAdapter
             it.cityDetailViewModal = viewModel
+            it.title =  CityDetailFragmentArgs.fromBundle(requireArguments()).title
             it.lifecycleOwner = viewLifecycleOwner
         }
 
@@ -64,23 +66,17 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
     }
 
     private fun setToolBar() {
-
         binding.cityDetailToolBar.setOnClickListener {
             handleBackButton()
         }
-
-        binding.cityDetailToolBar.title =
-            CityDetailFragmentArgs.fromBundle(requireArguments()).title
     }
 
     private fun handleBackButton() {
-        requireParentFragment().requireParentFragment().findNavController().currentBackStackEntry!!.
-        savedStateHandle.set(DATA_CONSTANT, false)
+        Timber.e("back button handle cityDetail")
+        cityDetailNavigator.savedStateHandle(requireParentFragment().requireParentFragment().findNavController(),
+            reprator.mobiquity.navigation.DATA_CONSTANT, false)
 
-        requireParentFragment().findNavController().currentBackStackEntry!!.
-        savedStateHandle.set(DATA_CONSTANT, false)
-
-        findNavController().navigateUp()
+        cityDetailNavigator.navigateToBack(findNavController())
     }
 
     private fun setUpRecyclerView() {

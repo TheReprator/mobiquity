@@ -1,8 +1,10 @@
 package reprator.mobiquity.saveCity.ui
 
-import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
@@ -13,31 +15,37 @@ import reprator.mobiquity.base.useCases.Success
 import reprator.mobiquity.base.util.AppCoroutineDispatchers
 import reprator.mobiquity.saveCity.domain.usecase.DeleteLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.GetLocationUseCase
+import reprator.mobiquity.saveCity.domain.usecase.SearchItemUseCase
 import reprator.mobiquity.saveCity.modal.LocationModal
 
+private const val DEBOUNCE_TIME = 250L
+
 class SaveCityViewModal @ViewModelInject constructor(
-    @Assisted val savedStateHandle: SavedStateHandle,
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
     private val locationUseCase: GetLocationUseCase,
-    private val deleteLocationUseCase: DeleteLocationUseCase
+    private val deleteLocationUseCase: DeleteLocationUseCase,
+    private val searchItemUseCase: SearchItemUseCase
 ) : ViewModel(), DeleteSwipeItem {
 
+    private val searchQuery = MutableStateFlow("")
+
+    private val _bookMarkListManipulated: MutableLiveData<List<LocationModal>> =
+        MutableLiveData(emptyList())
+    val bookMarkListManipulated: LiveData<List<LocationModal>>
+        get() = _bookMarkListManipulated
+
     private val _bookMarkList: MutableLiveData<List<LocationModal>> = MutableLiveData(emptyList())
-    val bookMarkList: LiveData<List<LocationModal>>
-        get() = _bookMarkList
 
     val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val _isLoadingProcess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     val _isError: MutableLiveData<String> = MutableLiveData("")
 
+    init {
+        setListenerForMutableState()
+    }
+
     fun getSavedLocationList() {
-
-        if (bookMarkList.value!!.isNotEmpty()) {
-            _bookMarkList.value = bookMarkList.value
-            return
-        }
-
         computationalBlock {
             locationUseCase().catch {
                 _isError.value = it.localizedMessage
@@ -51,19 +59,21 @@ class SaveCityViewModal @ViewModelInject constructor(
                     when (it) {
                         is Success -> {
                             _bookMarkList.value = it.data
+                            _bookMarkListManipulated.value = _bookMarkList.value
                         }
                         is ErrorResult -> {
-                            _isError.value = it.message ?: "Error Occurrred"
+                            _isError.value = it.message ?: "Error Occurred"
                         }
+                        else -> throw  IllegalArgumentException()
                     }
                 }
             }
         }
     }
 
-    override fun deletedItem(selectedPosition: Int) {
+    override fun deletedItem(position: Int) {
         computationalBlock {
-            val item = bookMarkList.value!![selectedPosition]
+            val item = bookMarkListManipulated.value!![position]
             deleteLocationUseCase(item).catch {
                 _isError.value = it.localizedMessage
             }.onStart {
@@ -74,18 +84,20 @@ class SaveCityViewModal @ViewModelInject constructor(
                 withContext(appCoroutineDispatchers.main) {
                     when (it) {
                         is Success -> {
-                            val newList = _bookMarkList.value!!.filterIndexed { index, _ ->
-                                index != selectedPosition
-                            }
-                            _bookMarkList.value = newList
+                            _bookMarkList.value =
+                                _bookMarkList.value!!.filterIndexed { index, _ ->
+                                    index != position
+                                }
+                            _bookMarkListManipulated.value = _bookMarkList.value
                         }
                         is ErrorResult -> {
-                            _bookMarkList.value = _bookMarkList.value!!.toList()
+                            _bookMarkListManipulated.value =
+                                _bookMarkListManipulated.value!!.toList()
                             _isError.value = it.message ?: "Error Occurrred"
                         }
+                        else -> throw IllegalArgumentException()
                     }
                 }
-
             }
         }
     }
@@ -93,6 +105,34 @@ class SaveCityViewModal @ViewModelInject constructor(
     fun retryGetBookMarkLocations() {
         _isError.value = ""
         getSavedLocationList()
+    }
+
+    fun setSearchQuery(query: String) {
+        searchQuery.value = query
+    }
+
+    private fun setListenerForMutableState() {
+        computationalBlock {
+            searchQuery.debounce(DEBOUNCE_TIME)
+                .collectLatest { query ->
+                    searchServer(query)
+                }
+        }
+    }
+
+    private fun searchServer(query: String) {
+        computationalBlock {
+            val data = searchItemUseCase(_bookMarkList.value!!, query)
+            withContext(appCoroutineDispatchers.main) {
+                when (data) {
+                    is Success ->
+                        _bookMarkListManipulated.value = data.data
+                    is ErrorResult ->
+                        _bookMarkListManipulated.value = emptyList()
+                    else -> throw IllegalArgumentException()
+                }
+            }
+        }
     }
 
     private fun computationalBlock(

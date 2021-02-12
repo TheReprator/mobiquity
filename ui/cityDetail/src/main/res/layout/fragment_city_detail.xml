@@ -8,6 +8,10 @@
         <import type="android.text.TextUtils" />
 
         <variable
+            name="title"
+            type="String" />
+
+        <variable
             name="weatherAdapter"
             type="reprator.mobiquity.cityDetail.ui.CityDetailAdapter" />
 
@@ -30,15 +34,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="?attr/homeAsUpIndicator" />
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="@{title}" />
 
         <include
+            goneUnless="@{cityDetailViewModal.todayWeatherItem == null ? false : true}"
             layout="@layout/row_weather_data"
             locationModal="@{cityDetailViewModal.todayWeatherItem}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            goneUnless="@{cityDetailViewModal.todayWeatherItem == null ? false : true}"
+            android:layout_gravity="center"
             android:background="@android:color/white"
+            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/cityDetail_gd_horizontal_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

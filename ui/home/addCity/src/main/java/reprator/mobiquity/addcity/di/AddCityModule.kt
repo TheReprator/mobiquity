@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @InstallIn(ActivityComponent::class)
 @Module
-object DiAddCityModule {
+object AddCityModule {
 
     @Provides
     fun provideIsLocationEnabled(@ActivityContext context: Context): IsLocationEnabled {
