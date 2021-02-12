@@ -1,10 +1,8 @@
 package reprator.mobiquity.saveCity.ui
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
@@ -18,16 +16,20 @@ import reprator.mobiquity.saveCity.domain.usecase.GetLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.SearchItemUseCase
 import reprator.mobiquity.saveCity.modal.LocationModal
 
-private const val DEBOUNCE_TIME = 250L
-
 class SaveCityViewModal @ViewModelInject constructor(
+    @Assisted private val savedStateHandle: SavedStateHandle,
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
     private val locationUseCase: GetLocationUseCase,
     private val deleteLocationUseCase: DeleteLocationUseCase,
     private val searchItemUseCase: SearchItemUseCase
 ) : ViewModel(), DeleteSwipeItem {
 
-    private val searchQuery = MutableStateFlow("")
+    companion object{
+        private const val KEY_SEARCH = "searchQuery"
+        private const val DEBOUNCE_TIME = 250L
+    }
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery:StateFlow<String> =_searchQuery
 
     private val _bookMarkListManipulated: MutableLiveData<List<LocationModal>> =
         MutableLiveData(emptyList())
@@ -108,12 +110,13 @@ class SaveCityViewModal @ViewModelInject constructor(
     }
 
     fun setSearchQuery(query: String) {
-        searchQuery.value = query
+        _searchQuery.value = query
+        savedStateHandle.set(KEY_SEARCH, query)
     }
 
     private fun setListenerForMutableState() {
         computationalBlock {
-            searchQuery.debounce(DEBOUNCE_TIME)
+            _searchQuery.debounce(DEBOUNCE_TIME)
                 .collectLatest { query ->
                     searchServer(query)
                 }

@@ -13,14 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.base.util.isNull
-import reprator.mobiquity.base_android.extensions.hideSoftInput
 import reprator.mobiquity.base_android.util.ItemOffsetDecoration
 import reprator.mobiquity.navigation.DATA_CONSTANT
+import reprator.mobiquity.navigation.HOME_DATA_CONSTANT
 import reprator.mobiquity.navigation.SavedCityNavigator
 import reprator.mobiquity.saveCity.R
 import reprator.mobiquity.saveCity.databinding.FragmentBookmarkcityBinding
 import reprator.mobiquity.saveCity.modal.LocationModal
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -58,10 +57,29 @@ class SaveCityFragment : Fragment(R.layout.fragment_bookmarkcity), SearchView.On
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
 
-        val mSearchMenuItem: MenuItem = menu.findItem(R.id.action_search)
-        val searchView: SearchView = mSearchMenuItem.actionView as SearchView
+        val mSearchMenuItem = menu.findItem(R.id.action_search)
+        val searchView = mSearchMenuItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(this)
+
+        mSearchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+
+            override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                savedCityNavigator.savedStateHandleCurrentBackStackEntry(
+                    requireParentFragment().requireParentFragment().findNavController(),
+                    HOME_DATA_CONSTANT, true
+                )
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                savedCityNavigator.savedStateHandleCurrentBackStackEntry(
+                    requireParentFragment().requireParentFragment().findNavController(),
+                    HOME_DATA_CONSTANT, false
+                )
+                return true
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,7 +117,7 @@ class SaveCityFragment : Fragment(R.layout.fragment_bookmarkcity), SearchView.On
     }
 
     override fun selectedPosition(item: LocationModal) {
-        savedCityNavigator.savedStateHandle(
+        savedCityNavigator.savedStateHandleCurrentBackStackEntry(
             requireParentFragment().requireParentFragment().findNavController(),
             DATA_CONSTANT, true
         )
@@ -112,12 +130,12 @@ class SaveCityFragment : Fragment(R.layout.fragment_bookmarkcity), SearchView.On
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
-      //  hideSoftInput()
         return false
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
         viewModel.setSearchQuery(newText)
+
         return true
     }
 }

@@ -3,6 +3,7 @@ package reprator.mobiquity.navigation
 import androidx.navigation.NavController
 
 const val DATA_CONSTANT = "sendDataToHost"
+const val HOME_DATA_CONSTANT = "homeSendDataToHost"
 
 interface AppNavigator : SavedCityNavigator, CityDetailNavigator
 
@@ -20,5 +21,5 @@ interface BackNavigator {
 }
 
 interface SendDataToParentWithSavedStateHandle {
-    fun savedStateHandle(navController: NavController, key: String, value: Any)
+    fun savedStateHandleCurrentBackStackEntry(navController: NavController, key: String, value: Any)
 }

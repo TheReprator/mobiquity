@@ -73,7 +73,7 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
 
     private fun handleBackButton() {
         Timber.e("back button handle cityDetail")
-        cityDetailNavigator.savedStateHandle(requireParentFragment().requireParentFragment().findNavController(),
+        cityDetailNavigator.savedStateHandleCurrentBackStackEntry(requireParentFragment().requireParentFragment().findNavController(),
             reprator.mobiquity.navigation.DATA_CONSTANT, false)
 
         cityDetailNavigator.navigateToBack(findNavController())

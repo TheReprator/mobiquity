@@ -3,21 +3,16 @@ package reprator.mobiquity.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.home.databinding.FragmentHomeBinding
-import timber.log.Timber
+import reprator.mobiquity.navigation.HOME_DATA_CONSTANT
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
-
-    companion object {
-        private const val DATA_CONSTANT = "sendDataToHost"
-    }
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -31,7 +26,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.fragmentHomeBottomNavView.setupWithNavController(navController)
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-            DATA_CONSTANT
+            HOME_DATA_CONSTANT
         )?.observe(viewLifecycleOwner, {
             if (it)
                 binding.fragmentHomeBottomNavView.visibility = View.GONE

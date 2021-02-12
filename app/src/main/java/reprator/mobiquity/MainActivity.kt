@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         getNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
             DATA_CONSTANT
         )?.observe(this, {
-
             if (it) {
                 binding.drawerAppBar.toolbar.visibility = View.GONE
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

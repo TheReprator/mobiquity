@@ -20,7 +20,7 @@ class MobiquityAppNavigatorImpl @Inject constructor() : AppNavigator {
         navController.navigate(direction)
     }
 
-    override fun savedStateHandle(navController: NavController, key: String, value: Any) {
+    override fun savedStateHandleCurrentBackStackEntry(navController: NavController, key: String, value: Any) {
         navController.currentBackStackEntry!!.savedStateHandle.set(key, value)
     }
 
