@@ -87,7 +87,7 @@ class CityDetailViewModal @ViewModelInject constructor(
                                 _foreCastWeatherList.value = it.data
                             }
                             is ErrorResult -> {
-                                _errorMsgForeCast.value = it.message!!
+                                _errorMsgForeCast.value = it.message ?: it.throwable!!.message
                             }
                             else -> throw IllegalArgumentException()
                         }

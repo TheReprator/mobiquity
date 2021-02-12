@@ -1,29 +1,50 @@
 package reprator.mobiquity.cityDetail.datasource.remote.remoteMapper
 
+import reprator.mobiquity.base.util.DateUtils
+import reprator.mobiquity.base.util.DateUtils.Companion.DD_MMM_YYYY
+import reprator.mobiquity.base.util.DateUtils.Companion.HOUR_MINUTE
 import reprator.mobiquity.base.util.Mapper
 import reprator.mobiquity.cityDetail.datasource.remote.modal.ForecastLocationEntity
 import reprator.mobiquity.cityDetail.modals.LocationModal
 import javax.inject.Inject
 
-class ForecastWeatherMapper @Inject constructor() :
+class ForecastWeatherMapper @Inject constructor(private val dateUtils: DateUtils) :
     Mapper<ForecastLocationEntity, List<LocationModal>> {
 
     override suspend fun map(from: ForecastLocationEntity): List<LocationModal> {
+        val timeZone = dateUtils.convertToEpoch(from.city.timezone.toLong())
+        val timeZoneEpoch = dateUtils.getTimeZone(timeZone.toInt())
+
         return from.list.map {
             LocationModal(
+                "${from.city.name}, ${from.city.country}",
                 it.weather[0].description,
-                it.main.temp.toString(),
-                it.main.tempMin.toString(),
-                it.main.tempMax.toString(),
 
-                it.main.pressure.toString(),
-                it.main.humidity.toString(),
+                dateUtils.format(
+                    dateUtils.convertToEpoch(it.dt),
+                    DD_MMM_YYYY,
+                    timeZoneEpoch
+                ),
 
-                it.wind.speed.toString(),
-                it.wind.deg.toString(),
+                it.temp.min.toString(),
+                it.temp.max.toString(),
 
-                it.sys.sunrise.toString(),
-                it.sys.sunset.toString()
+                it.pressure.toString(),
+                it.humidity.toString(),
+
+                it.speed.toString(),
+                it.deg.toString(),
+
+                dateUtils.format(
+                    dateUtils.convertToEpoch(it.sunrise),
+                    HOUR_MINUTE,
+                    timeZoneEpoch
+                ),
+                dateUtils.format(
+                    dateUtils.convertToEpoch(it.sunset),
+                    HOUR_MINUTE,
+                    timeZoneEpoch
+                )
             )
         }
     }

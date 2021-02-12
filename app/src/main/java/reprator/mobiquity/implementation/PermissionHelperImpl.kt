@@ -1,9 +1,7 @@
-package reprator.mobiquity
+package reprator.mobiquity.implementation
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import reprator.mobiquity.base_android.PermissionHelper
 import reprator.mobiquity.base_android.util.isAndroidMOrLater

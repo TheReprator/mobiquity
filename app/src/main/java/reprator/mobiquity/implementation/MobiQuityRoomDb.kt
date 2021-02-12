@@ -1,4 +1,4 @@
-package reprator.mobiquity
+package reprator.mobiquity.implementation
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

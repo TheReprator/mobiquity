@@ -9,7 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import reprator.mobiquity.MobiQuityRoomDb
+import reprator.mobiquity.implementation.MobiQuityRoomDb
 import reprator.mobiquity.database.DBManager
 import reprator.mobiquity.database.DBManagerImpl
 import reprator.mobiquity.database.LocationDao

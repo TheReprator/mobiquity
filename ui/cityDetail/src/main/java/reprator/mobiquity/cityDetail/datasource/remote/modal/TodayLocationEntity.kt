@@ -34,13 +34,13 @@ class TodayLocationEntity(
     @JsonProperty("clouds")
     val clouds: CloudEntity,
     @JsonProperty("dt")
-    val dt: Int,
+    val dt: Long,
     @JsonProperty("sys")
     val sys: SysEntity,
     @JsonProperty("timezone")
-    val timezone: Int,
+    val timezone: Long,
     @JsonProperty("id")
-    val id: Int,
+    val id: Long,
     @JsonProperty("name")
     val name: String,
     @JsonProperty("cod")
@@ -84,13 +84,13 @@ class MainEntity(
     @JsonProperty("temp_max")
     val tempMax: Double,
     @JsonProperty("pressure")
-    val pressure: Int,
+    val pressure: Float,
     @JsonProperty("humidity")
-    val humidity: Int,
+    val humidity: Float,
     @JsonProperty("sea_level")
-    val seaLevel: Int,
+    val seaLevel: Float,
     @JsonProperty("grnd_level")
-    val grndLevel: Int
+    val grndLevel: Float
 )
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -104,9 +104,9 @@ class SysEntity(
     @JsonProperty("country")
     val country: String = "",
     @JsonProperty("sunrise")
-    val sunrise: Int = 0,
+    val sunrise: Long = 0,
     @JsonProperty("sunset")
-    val sunset: Int = 0
+    val sunset: Long = 0
 )
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -118,7 +118,7 @@ class SysEntity(
 )
 class WeatherEntity(
     @JsonProperty("id")
-    val id: Int,
+    val id: Long,
     @JsonProperty("main")
     val main: String,
     @JsonProperty("description")
@@ -136,5 +136,5 @@ class WindEntity(
     @JsonProperty("speed")
     val speed: Double,
     @JsonProperty("deg")
-    val deg: Int
+    val deg: Float
 )

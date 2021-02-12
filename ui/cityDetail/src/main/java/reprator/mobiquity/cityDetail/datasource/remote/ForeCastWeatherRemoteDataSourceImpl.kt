@@ -20,7 +20,6 @@ class ForeCastWeatherRemoteDataSourceImpl @Inject constructor(
 ) : ForecastWeatherRemoteDataSource {
 
     private suspend fun getForecastWeatherApi(requestModal: LocationRequestModal): Flow<MobiQuityResult<List<LocationModal>>> {
-        Timber.e("forecast data ${requestModal.longitude}")
         return flow {
             val data = weatherApiService.foreCastWeather(
                 requestModal.latitude.toDouble(), requestModal.longitude.toDouble(),

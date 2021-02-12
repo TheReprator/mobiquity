@@ -4,6 +4,6 @@ class LocationRequestModal(
     val latitude: String,
     val longitude: String,
     val unit: String = "standard",
-    val count: Int = 5
+    val count: Int = 10
 
 )

@@ -1,4 +1,4 @@
-package reprator.mobiquity
+package reprator.mobiquity.implementation
 
 import android.content.SharedPreferences
 import reprator.mobiquity.base.MeasureMentUnitType

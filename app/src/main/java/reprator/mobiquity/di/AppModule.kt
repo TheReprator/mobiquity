@@ -13,14 +13,16 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asCoroutineDispatcher
-import reprator.mobiquity.PermissionHelperImpl
+import reprator.mobiquity.implementation.PermissionHelperImpl
 import reprator.mobiquity.R
-import reprator.mobiquity.SettingPreferenceManagerImpl
+import reprator.mobiquity.implementation.SettingPreferenceManagerImpl
 import reprator.mobiquity.base.SaveSettingPreferenceManager
 import reprator.mobiquity.base.SettingPreferenceManager
 import reprator.mobiquity.base.util.AppCoroutineDispatchers
 import reprator.mobiquity.base.util.ConnectionDetector
+import reprator.mobiquity.base.util.DateUtils
 import reprator.mobiquity.base_android.PermissionHelper
+import reprator.mobiquity.implementation.DateUtilsImpl
 import reprator.mobiquity.util.AppCoroutineDispatchersImpl
 import reprator.mobiquity.util.connectivity.InternetChecker
 import java.util.concurrent.Executors
@@ -81,4 +83,10 @@ class AppModule {
         return InternetChecker(context, lifecycle)
     }
 
+    @Singleton
+    @Provides
+    fun provideDateUtils(
+    ): DateUtils {
+        return DateUtilsImpl()
+    }
 }
