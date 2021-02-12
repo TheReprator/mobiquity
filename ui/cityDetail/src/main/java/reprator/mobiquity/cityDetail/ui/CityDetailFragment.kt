@@ -15,7 +15,6 @@ import reprator.mobiquity.cityDetail.CityDetailViewModal
 import reprator.mobiquity.cityDetail.R
 import reprator.mobiquity.cityDetail.databinding.FragmentCityDetailBinding
 import reprator.mobiquity.navigation.CityDetailNavigator
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -40,6 +39,10 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        cityDetailNavigator.hideToolbar(
+            requireParentFragment().requireParentFragment().findNavController()
+        )
+
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             handleBackButton()
         }
@@ -51,7 +54,7 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
         _binding = FragmentCityDetailBinding.bind(view).also {
             it.weatherAdapter = cityDetailAdapter
             it.cityDetailViewModal = viewModel
-            it.title =  CityDetailFragmentArgs.fromBundle(requireArguments()).title
+            it.title = CityDetailFragmentArgs.fromBundle(requireArguments()).title
             it.lifecycleOwner = viewLifecycleOwner
         }
 
@@ -60,7 +63,7 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
         setUpRecyclerView()
         initializeObserver()
 
-        if(savedInstanceState.isNull()) {
+        if (savedInstanceState.isNull()) {
             viewModel.getForeCastWeatherUse()
         }
     }
@@ -72,10 +75,10 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
     }
 
     private fun handleBackButton() {
-        Timber.e("back button handle cityDetail")
-        cityDetailNavigator.savedStateHandleCurrentBackStackEntry(requireParentFragment().requireParentFragment().findNavController(),
-            reprator.mobiquity.navigation.DATA_CONSTANT, false)
+        val navController = requireParentFragment().requireParentFragment().findNavController()
 
+        cityDetailNavigator.showToolbar(navController)
+        cityDetailNavigator.showBottomNavigationView(navController)
         cityDetailNavigator.navigateToBack(findNavController())
     }
 

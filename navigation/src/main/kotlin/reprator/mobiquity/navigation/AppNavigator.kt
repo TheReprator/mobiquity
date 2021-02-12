@@ -2,19 +2,26 @@ package reprator.mobiquity.navigation
 
 import androidx.navigation.NavController
 
-const val DATA_CONSTANT = "sendDataToHost"
-const val HOME_DATA_CONSTANT = "homeSendDataToHost"
+const val HIDE_TOOLBAR = "hideToolBar"
+const val HOME_HIDE_BOTTOM_NAVIGATION_VIEW = "homeHideBottomNavigationView"
 
-interface AppNavigator : SavedCityNavigator, CityDetailNavigator
+interface AppNavigator : SavedCityNavigator, CityDetailNavigator, SendDataToParentWithSavedStateHandle
 
-interface SavedCityNavigator : SendDataToParentWithSavedStateHandle {
+interface SavedCityNavigator  {
     fun navigateToCityDetailScreen(
         navController: NavController,
         latLng: String, title: String
     )
+
+    fun showBottomNavigationView(navController: NavController)
+    fun hideBottomNavigationView(navController: NavController)
 }
 
-interface CityDetailNavigator : BackNavigator, SendDataToParentWithSavedStateHandle
+interface CityDetailNavigator : BackNavigator {
+    fun showToolbar(navController: NavController)
+    fun hideToolbar(navController: NavController)
+    fun showBottomNavigationView(navController: NavController)
+}
 
 interface BackNavigator {
     fun navigateToBack(navController: NavController)

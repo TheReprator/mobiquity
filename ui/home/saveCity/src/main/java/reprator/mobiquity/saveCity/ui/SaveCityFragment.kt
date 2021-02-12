@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.base.util.isNull
 import reprator.mobiquity.base_android.util.ItemOffsetDecoration
-import reprator.mobiquity.navigation.DATA_CONSTANT
-import reprator.mobiquity.navigation.HOME_DATA_CONSTANT
 import reprator.mobiquity.navigation.SavedCityNavigator
 import reprator.mobiquity.saveCity.R
 import reprator.mobiquity.saveCity.databinding.FragmentBookmarkcityBinding
@@ -65,21 +63,28 @@ class SaveCityFragment : Fragment(R.layout.fragment_bookmarkcity), SearchView.On
         mSearchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
 
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                savedCityNavigator.savedStateHandleCurrentBackStackEntry(
-                    requireParentFragment().requireParentFragment().findNavController(),
-                    HOME_DATA_CONSTANT, true
+                savedCityNavigator.hideBottomNavigationView(
+                    getNavController()
                 )
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                savedCityNavigator.savedStateHandleCurrentBackStackEntry(
-                    requireParentFragment().requireParentFragment().findNavController(),
-                    HOME_DATA_CONSTANT, false
+                savedCityNavigator.showBottomNavigationView(
+                    getNavController()
                 )
+
                 return true
             }
         })
+
+        val searchQuery = viewModel.searchQuery.value
+        if (searchQuery.isEmpty())
+            return
+
+        mSearchMenuItem.expandActionView()
+        searchView.setQuery(searchQuery, true)
+        searchView.clearFocus()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -117,9 +122,8 @@ class SaveCityFragment : Fragment(R.layout.fragment_bookmarkcity), SearchView.On
     }
 
     override fun selectedPosition(item: LocationModal) {
-        savedCityNavigator.savedStateHandleCurrentBackStackEntry(
-            requireParentFragment().requireParentFragment().findNavController(),
-            DATA_CONSTANT, true
+        savedCityNavigator.hideBottomNavigationView(
+            getNavController()
         )
 
         savedCityNavigator.navigateToCityDetailScreen(
@@ -129,13 +133,15 @@ class SaveCityFragment : Fragment(R.layout.fragment_bookmarkcity), SearchView.On
         )
     }
 
+    private fun getNavController() =
+        requireParentFragment().requireParentFragment().findNavController()
+
     override fun onQueryTextSubmit(query: String): Boolean {
         return false
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
         viewModel.setSearchQuery(newText)
-
         return true
     }
 }

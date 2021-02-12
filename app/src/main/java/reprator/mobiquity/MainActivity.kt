@@ -12,8 +12,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.databinding.ActivityMainBinding
-import reprator.mobiquity.navigation.DATA_CONSTANT
-import timber.log.Timber
+import reprator.mobiquity.navigation.HIDE_TOOLBAR
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         binding.drawerNavView.setupWithNavController(getNavController())
 
         getNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-            DATA_CONSTANT
+            HIDE_TOOLBAR
         )?.observe(this, {
             if (it) {
                 binding.drawerAppBar.toolbar.visibility = View.GONE

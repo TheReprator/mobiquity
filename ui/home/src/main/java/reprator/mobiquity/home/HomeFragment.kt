@@ -9,7 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.home.databinding.FragmentHomeBinding
-import reprator.mobiquity.navigation.HOME_DATA_CONSTANT
+import reprator.mobiquity.navigation.HIDE_TOOLBAR
+import reprator.mobiquity.navigation.HOME_HIDE_BOTTOM_NAVIGATION_VIEW
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -20,18 +21,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding = FragmentHomeBinding.bind(view)
+        _binding = FragmentHomeBinding.bind(view).also {
+            it.shouldHide = true
+            it.lifecycleOwner = viewLifecycleOwner
+        }
 
         val navController = setupNavController()
         binding.fragmentHomeBottomNavView.setupWithNavController(navController)
 
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-            HOME_DATA_CONSTANT
+            HOME_HIDE_BOTTOM_NAVIGATION_VIEW
         )?.observe(viewLifecycleOwner, {
-            if (it)
-                binding.fragmentHomeBottomNavView.visibility = View.GONE
-            else
-                binding.fragmentHomeBottomNavView.visibility = View.VISIBLE
+            binding.shouldHide = it
         })
     }
 
