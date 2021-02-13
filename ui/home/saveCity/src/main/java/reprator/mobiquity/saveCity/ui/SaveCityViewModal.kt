@@ -1,5 +1,6 @@
 package reprator.mobiquity.saveCity.ui
 
+import androidx.annotation.VisibleForTesting
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -123,7 +124,8 @@ class SaveCityViewModal @ViewModelInject constructor(
         }
     }
 
-    private fun searchServer(query: String) {
+    @VisibleForTesting
+    fun searchServer(query: String) {
         computationalBlock {
             val data = searchItemUseCase(_bookMarkList.value!!, query)
             withContext(appCoroutineDispatchers.main) {
