@@ -33,16 +33,16 @@ class SaveCityViewModal @ViewModelInject constructor(
     val searchQuery:StateFlow<String> =_searchQuery
 
     private val _bookMarkListManipulated: MutableLiveData<List<LocationModal>> =
-        MutableLiveData(emptyList())
+        MutableLiveData()
     val bookMarkListManipulated: LiveData<List<LocationModal>>
         get() = _bookMarkListManipulated
 
-    private val _bookMarkList: MutableLiveData<List<LocationModal>> = MutableLiveData(emptyList())
+    private val _bookMarkList: MutableLiveData<List<LocationModal>> = MutableLiveData()
 
-    val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val _isLoadingProcess: MutableLiveData<Boolean> = MutableLiveData(false)
+    val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    val _isError: MutableLiveData<String> = MutableLiveData()
 
-    val _isError: MutableLiveData<String> = MutableLiveData("")
+    val _isLoadingDelete: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
 
     init {
         setListenerForMutableState()
@@ -80,9 +80,9 @@ class SaveCityViewModal @ViewModelInject constructor(
             deleteLocationUseCase(item).catch {
                 _isError.value = it.localizedMessage
             }.onStart {
-                _isLoadingProcess.value = true
+                _isLoadingDelete.value = true
             }.onCompletion {
-                _isLoadingProcess.value = false
+                _isLoadingDelete.value = false
             }.flowOn(appCoroutineDispatchers.main).collect {
                 withContext(appCoroutineDispatchers.main) {
                     when (it) {
@@ -127,7 +127,7 @@ class SaveCityViewModal @ViewModelInject constructor(
     @VisibleForTesting
     fun searchServer(query: String) {
         computationalBlock {
-            val data = searchItemUseCase(_bookMarkList.value!!, query)
+            val data = searchItemUseCase(_bookMarkList.value, query)
             withContext(appCoroutineDispatchers.main) {
                 when (data) {
                     is Success ->

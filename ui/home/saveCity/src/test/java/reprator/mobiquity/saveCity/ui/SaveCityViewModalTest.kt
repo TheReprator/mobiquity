@@ -1,13 +1,11 @@
 package reprator.mobiquity.saveCity.ui
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.coVerifySequence
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
@@ -24,6 +22,7 @@ import reprator.mobiquity.saveCity.TestFakeData.getLocationModalList
 import reprator.mobiquity.saveCity.domain.usecase.DeleteLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.GetLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.SearchItemUseCase
+import reprator.mobiquity.saveCity.modal.LocationModal
 import reprator.mobiquity.testUtils.MainCoroutineRule
 
 @ExperimentalCoroutinesApi
@@ -52,6 +51,21 @@ class SaveCityViewModalTest {
 
     lateinit var saveCityViewModal: SaveCityViewModal
 
+    //create mockk object
+    val observerLoad = mockk<Observer<Boolean>>()
+    val observerError = mockk<Observer<String>>()
+    val observerSuccessList = mockk<Observer<List<LocationModal>>>()
+
+    //create slot
+    val slotLoad = slot<Boolean>()
+    val slotError = slot<String>()
+    val slotSuccess = slot<List<LocationModal>>()
+
+    //create list to store values
+    val listError = arrayListOf<String>()
+    val listSuccess = arrayListOf<List<LocationModal>>()
+    val listLoader = arrayListOf<Boolean>()
+
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
@@ -61,6 +75,28 @@ class SaveCityViewModalTest {
                 savedStateHandle, coroutinesTestRule.testDispatcherProvider,
                 getLocationUseCase, deleteLocationUseCase, searchItemUseCase
             )
+
+        saveCityViewModal._isLoading.observeForever(observerLoad)
+        saveCityViewModal._isError.observeForever(observerError)
+        saveCityViewModal.bookMarkListManipulated.observeForever(observerSuccessList)
+
+        every {
+            observerLoad.onChanged(capture(slotLoad))
+        } answers {
+            listLoader.add(slotLoad.captured)
+        }
+
+        every {
+            observerError.onChanged(capture(slotError))
+        } answers {
+            listError.add(slotError.captured)
+        }
+
+        every {
+            observerSuccessList.onChanged(capture(slotSuccess))
+        } answers {
+            listSuccess.add(slotSuccess.captured)
+        }
 
         coEvery {
             savedStateHandle.get<String>(any())
@@ -80,19 +116,23 @@ class SaveCityViewModalTest {
             searchItemUseCase(any(), any())
         } returns Success(output)
 
-        coroutinesTestRule.pauseDispatcher()
-
         saveCityViewModal.getSavedLocationList()
 
-        saveCityViewModal.bookMarkListManipulated.observeForTesting {
-            Truth.assertThat(saveCityViewModal._isLoading.getOrAwaitValue()).isFalse()
-            Truth.assertThat(saveCityViewModal._isError.getOrAwaitValue()).isEmpty()
-
-            coroutinesTestRule.resumeDispatcher()
-
-            Truth.assertThat(saveCityViewModal.bookMarkListManipulated.getOrAwaitValue())
-                .hasSize(output.size)
+        verifySequence {
+            observerLoad.onChanged(any())
+            observerSuccessList.onChanged(any())
+            observerLoad.onChanged(any())
         }
+
+        Truth.assertThat(listSuccess).isNotEmpty()
+        Truth.assertThat(listSuccess).hasSize(output.size)
+        Truth.assertThat(listSuccess[0]).isEqualTo(output)
+
+        Truth.assertThat(listLoader).isNotEmpty()
+        Truth.assertThat(listLoader).hasSize(2)
+        Truth.assertThat(listLoader).isEqualTo(listOf(true, false))
+
+        Truth.assertThat(listError).isEmpty()
     }
 
     @Test
@@ -108,19 +148,23 @@ class SaveCityViewModalTest {
             searchItemUseCase(any(), any())
         } returns Success(emptyList())
 
-        coroutinesTestRule.pauseDispatcher()
-
         saveCityViewModal.getSavedLocationList()
 
-        saveCityViewModal.bookMarkListManipulated.observeForTesting {
-            Truth.assertThat(saveCityViewModal._isLoading.getOrAwaitValue()).isFalse()
-            Truth.assertThat(saveCityViewModal._isError.getOrAwaitValue()).isEmpty()
-
-            coroutinesTestRule.resumeDispatcher()
-
-            Truth.assertThat(saveCityViewModal.bookMarkListManipulated.getOrAwaitValue()).isEmpty()
-            Truth.assertThat(saveCityViewModal._isError.getOrAwaitValue()).isEqualTo(output.message)
+        verifySequence {
+            observerLoad.onChanged(any())
+            observerError.onChanged(any())
+            observerLoad.onChanged(any())
         }
+
+        Truth.assertThat(listLoader).isNotEmpty()
+        Truth.assertThat(listLoader).hasSize(2)
+        Truth.assertThat(listLoader).isEqualTo(listOf(true, false))
+
+        Truth.assertThat(listError).isNotEmpty()
+        Truth.assertThat(listError).hasSize(1)
+        Truth.assertThat(listError[0]).isEqualTo(output.message)
+
+        Truth.assertThat(listSuccess).isEmpty()
     }
 
     @Test
@@ -135,10 +179,16 @@ class SaveCityViewModalTest {
 
         saveCityViewModal.searchServer(searchString)
 
-        saveCityViewModal.bookMarkListManipulated.observeForTesting {
-
-            Truth.assertThat(saveCityViewModal.bookMarkListManipulated.getOrAwaitValue()).isNotEmpty()
-            Truth.assertThat(saveCityViewModal.bookMarkListManipulated.getOrAwaitValue()).isEqualTo(output)
+        verifySequence {
+            observerSuccessList.onChanged(any())
         }
+
+        Truth.assertThat(listSuccess).isNotEmpty()
+        Truth.assertThat(listSuccess).hasSize(output.size)
+        Truth.assertThat(listSuccess[0]).isEqualTo(output)
+
+
+        Truth.assertThat(listError).isEmpty()
+        Truth.assertThat(listLoader).isEmpty()
     }
 }
