@@ -24,17 +24,17 @@ class CityDetailViewModal @ViewModelInject constructor(
     private val settingPreferenceManager: SettingPreferenceManager
 ) : ViewModel() {
 
-    private val _isLoadingForeCast = MutableLiveData(true)
+    private val _isLoadingForeCast = MutableLiveData<Boolean>()
     val isLoadingForeCast: LiveData<Boolean> = _isLoadingForeCast
 
-    private val _errorMsgForeCast = MutableLiveData("")
+    private val _errorMsgForeCast = MutableLiveData<String>()
     val errorMsgForeCast: LiveData<String> = _errorMsgForeCast
 
     private val _todayWeatherItem = MutableLiveData<LocationModal?>()
     val todayWeatherItem: LiveData<LocationModal?> = _todayWeatherItem
 
     @VisibleForTesting
-    val _foreCastWeatherList = MutableLiveData(emptyList<LocationModal>())
+    val _foreCastWeatherList = MutableLiveData<List<LocationModal>>()
 
     fun getForeCastWeatherUse() {
         computationalBlock {
