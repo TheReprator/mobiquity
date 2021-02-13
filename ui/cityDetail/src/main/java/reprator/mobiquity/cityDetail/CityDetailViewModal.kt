@@ -24,17 +24,17 @@ class CityDetailViewModal @ViewModelInject constructor(
     private val settingPreferenceManager: SettingPreferenceManager
 ) : ViewModel() {
 
-    private val _isLoadingForeCast = MutableLiveData<Boolean>()
+    private val _isLoadingForeCast = MutableLiveData(true)
     val isLoadingForeCast: LiveData<Boolean> = _isLoadingForeCast
 
-    private val _errorMsgForeCast = MutableLiveData<String>()
+    private val _errorMsgForeCast = MutableLiveData("")
     val errorMsgForeCast: LiveData<String> = _errorMsgForeCast
 
     private val _todayWeatherItem = MutableLiveData<LocationModal?>()
     val todayWeatherItem: LiveData<LocationModal?> = _todayWeatherItem
 
     @VisibleForTesting
-    val _foreCastWeatherList = MutableLiveData<List<LocationModal>>()
+    val _foreCastWeatherList = MutableLiveData(emptyList<LocationModal>())
 
     fun getForeCastWeatherUse() {
         computationalBlock {
@@ -68,6 +68,7 @@ class CityDetailViewModal @ViewModelInject constructor(
     }
 
     fun retryForeCastWeather() {
+        _isLoadingForeCast.value = true
         _errorMsgForeCast.value = ""
         getForeCastWeatherUse()
     }

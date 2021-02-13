@@ -80,6 +80,10 @@ class CityDetailViewModalTest {
             settingPreferenceManager.measureMentUnitType
         } returns MeasureMentUnitType.STANDARD
 
+        observerLoad.onChangeExtension()
+        observerError.onChangeExtension()
+        observerSuccessList.onChangeExtension()
+
         //start observing
         cityListViewModal.isLoadingForeCast.observeForever(observerLoad)
         cityListViewModal.errorMsgForeCast.observeForever(observerError)
@@ -116,6 +120,8 @@ class CityDetailViewModalTest {
         cityListViewModal.getForeCastWeatherUse()
 
         verifySequence {
+            observerLoad.onChanged(any())               //Default Initialization
+            observerSuccessList.onChanged(any())        //Default Initialization
             observerLoad.onChanged(any())
             observerSuccessList.onChanged(any())
             observerLoad.onChanged(any())
@@ -138,6 +144,9 @@ class CityDetailViewModalTest {
         cityListViewModal.getForeCastWeatherUse()
 
         verifySequence {
+            observerLoad.onChanged(any())               //Default Initialization
+            observerError.onChanged(any())              //Default Initialization
+            observerSuccessList.onChanged(any())        //Default Initialization
             observerLoad.onChanged(any())
             observerError.onChanged(any())
             observerLoad.onChanged(any())
@@ -162,6 +171,11 @@ class CityDetailViewModalTest {
             cityListViewModal.retryForeCastWeather()
 
             verifySequence {
+                observerLoad.onChanged(any())
+                observerError.onChanged(any())
+                observerSuccessList.onChanged(any())
+                observerLoad.onChanged(any())
+
                 observerError.onChanged(any())
                 observerLoad.onChanged(any())
                 observerSuccessList.onChanged(any())
@@ -173,7 +187,7 @@ class CityDetailViewModalTest {
             Truth.assertThat(listSuccess[0]).isEqualTo(output.drop(1))
 
             Truth.assertThat(listLoader).isNotEmpty()
-            Truth.assertThat(listLoader).hasSize(2)
+            Truth.assertThat(listLoader).hasSize(3)
 
             Truth.assertThat(listError).isNotEmpty()
             Truth.assertThat(listError).hasSize(1)
