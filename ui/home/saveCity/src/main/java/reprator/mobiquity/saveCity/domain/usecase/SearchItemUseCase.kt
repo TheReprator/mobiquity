@@ -23,7 +23,8 @@ class SearchItemUseCase @Inject constructor() {
 
         val querySmall = query.toLowerCase().trimStart()
         val data = itemList.filter {
-            it.address.toLowerCase().contains(querySmall) || it.latLong.toLowerCase().contains(querySmall)
+            it.address.toLowerCase().contains(querySmall) || it.latLong.toLowerCase()
+                .contains(querySmall)
         }
 
         return Success(data)
