@@ -54,6 +54,11 @@ android {
         exclude ("META-INF/atomicfu.kotlin_module")
         pickFirst ("META-INF/*")
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 kapt {
@@ -94,6 +99,11 @@ dependencies {
 
     testImplementation(project(AppModules.moduleTest))
     testImplementation(project(AppModules.moduleAndroid))
+
+    // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
+    testImplementation("org.robolectric:robolectric:4.5.1")
+
+
 }
 
 fun propOrDef(propertyName: String, defaultValue: Any): Any {

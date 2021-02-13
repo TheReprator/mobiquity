@@ -11,11 +11,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.robolectric.RobolectricTestRunner
 import reprator.mobiquity.addcity.TestFakeData.getLocationEntityList
 import reprator.mobiquity.addcity.TestFakeData.getLocationModalList
 
-@RunWith(JUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class LocationMapperTest {
 
     @Rule
@@ -27,8 +27,8 @@ class LocationMapperTest {
 
     @Test
     fun `map from Location to LocationEntity`() = runBlockingTest {
-        val output = getLocationEntityList()[0]
         val input = getLocationModalList()[0]
+        val output = getLocationEntityList()[0]
 
         val mapper = spyk(LocationMapper())
 
