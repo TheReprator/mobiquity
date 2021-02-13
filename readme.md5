@@ -1,0 +1,20 @@
+1)Help Screen Not completed as i don't have knowledge of HTML to create a page manually &
+neither any url were provided, which can be loaded in webview
+
+How to use the app:
+1)On Home Page, you have to add a location, with the help of a button("Set Location"),
+ a)If permission is provided, & location services is enabled map will take you to current location
+ b)location is added to db based on reverse geocoding option
+
+2)In BookMark Location, you will see a list of locations, which you had saved
+ a)you can delete the item by swap, the particular row
+ b)Click the particular row, to fetch, the weather details of next 12 days, alongwith current weather,
+    on next page
+ c) you can search any item from saved locations
+
+3)In Setting Page, You can configure the following things,
+  a)Measurement Unit: which will be fed to the api, on detail screen
+  b)"clear bookmark places": Once checked, all the items will be deleted from the local db, & again it
+    will be set to false, after deletion
+
+

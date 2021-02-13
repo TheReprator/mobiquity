@@ -19,6 +19,7 @@ import reprator.mobiquity.androidTest.util.observeForTesting
 import reprator.mobiquity.base.useCases.ErrorResult
 import reprator.mobiquity.base.useCases.Success
 import reprator.mobiquity.saveCity.TestFakeData.getLocationModalList
+import reprator.mobiquity.saveCity.TestFakeData.getLocationModalListForDeletion
 import reprator.mobiquity.saveCity.domain.usecase.DeleteLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.GetLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.SearchItemUseCase
@@ -190,5 +191,54 @@ class SaveCityViewModalTest {
 
         Truth.assertThat(listError).isEmpty()
         Truth.assertThat(listLoader).isEmpty()
+    }
+
+    @Test
+    fun `delete an Item from repository successFully`() = coroutinesTestRule.runBlockingTest {
+
+        val output = getLocationModalListForDeletion()
+        saveCityViewModal._bookMarkList .value = output
+        saveCityViewModal._bookMarkListManipulated .value = output
+
+        val observerDelete = mockk<Observer<Boolean>>()
+        val slotDelete = slot<Boolean>()
+        val listDelete = arrayListOf<Boolean>()
+
+        every {
+            observerDelete.onChanged(capture(slotDelete))
+        } answers {
+            listDelete.add(slotDelete.captured)
+        }
+
+        saveCityViewModal._isLoadingDelete.observeForever(observerDelete)
+
+
+        coEvery {
+            searchItemUseCase(any(), any())
+        } returns Success(emptyList())
+
+        coEvery {
+            deleteLocationUseCase(any())
+        } returns flowOf(Success(1))
+
+        saveCityViewModal.deletedItem(0)
+
+        verifySequence {
+            observerSuccessList.onChanged(any())
+            observerDelete.onChanged(any())
+            observerSuccessList.onChanged(any())
+            observerDelete.onChanged(any())
+        }
+
+        Truth.assertThat(listSuccess).isNotEmpty()
+        Truth.assertThat(listSuccess).hasSize(2)
+        Truth.assertThat(listSuccess.last().first()).isEqualTo(output.last())
+
+        Truth.assertThat(listDelete).isNotEmpty()
+        Truth.assertThat(listDelete).hasSize(2)
+        Truth.assertThat(listDelete).isEqualTo(listOf(true, false))
+
+        Truth.assertThat(listLoader).isEmpty()
+        Truth.assertThat(listError).isEmpty()
     }
 }

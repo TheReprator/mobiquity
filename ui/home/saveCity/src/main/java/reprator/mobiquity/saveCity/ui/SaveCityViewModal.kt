@@ -32,12 +32,14 @@ class SaveCityViewModal @ViewModelInject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery:StateFlow<String> =_searchQuery
 
-    private val _bookMarkListManipulated: MutableLiveData<List<LocationModal>> =
+    @VisibleForTesting
+    val _bookMarkListManipulated: MutableLiveData<List<LocationModal>> =
         MutableLiveData()
     val bookMarkListManipulated: LiveData<List<LocationModal>>
         get() = _bookMarkListManipulated
 
-    private val _bookMarkList: MutableLiveData<List<LocationModal>> = MutableLiveData()
+    @VisibleForTesting
+    val _bookMarkList: MutableLiveData<List<LocationModal>> = MutableLiveData()
 
     val _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val _isError: MutableLiveData<String> = MutableLiveData()

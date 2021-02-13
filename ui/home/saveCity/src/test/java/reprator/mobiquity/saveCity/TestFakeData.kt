@@ -12,6 +12,10 @@ object TestFakeData {
     fun getLocationModalList(): List<LocationModal> {
         return listOf(LocationModal("20.21,76.35", "London, UK"))
     }
+    fun getLocationModalListForDeletion(): List<LocationModal> {
+        return listOf(LocationModal("20.21,76.35", "London, UK"),
+            LocationModal("35.21,32.35", "Hajipur, India"))
+    }
 
     fun getLocationEntity(): LocationEntity {
         return LocationEntity("20.21,76.35", "London, UK")
