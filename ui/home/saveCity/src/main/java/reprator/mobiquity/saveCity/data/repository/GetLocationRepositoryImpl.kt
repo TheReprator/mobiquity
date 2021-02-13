@@ -1,7 +1,7 @@
 package reprator.mobiquity.saveCity.data.repository
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -16,6 +16,7 @@ import reprator.mobiquity.saveCity.domain.repository.GetLocationRepository
 import reprator.mobiquity.saveCity.modal.LocationModal
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.coroutines.resumeWithException
 
 class GetLocationRepositoryImpl @Inject constructor(
     private val locationMapper: LocationMapper,
@@ -26,33 +27,32 @@ class GetLocationRepositoryImpl @Inject constructor(
 ) : GetLocationRepository {
 
     override suspend fun getLocationList(): Flow<MobiQuityResult<List<LocationModal>>> {
-        if (settingPreferenceManager.shouldClearSavedLocation)
+        return if (settingPreferenceManager.shouldClearSavedLocation) {
             clearTable()
+            saveSettingPreferenceManager.saveClearSavedLocation = false
+            flowOf(Success(emptyList<LocationModal>()))
+        } else
+            when (val data = dbManager.getLocationList().single()) {
+                is Success -> {
+                    flowOf(Success(locationMapper.map(data.data)))
+                }
 
-        return when (val data = dbManager.getLocationList().single()) {
-            is Success -> {
-                flowOf(Success(locationMapper.map(data.data)))
+                is ErrorResult -> {
+                    flowOf(ErrorResult(throwable = data.throwable, message = data.message))
+                }
+
+                else -> throw IllegalArgumentException()
             }
+    }
 
-            is ErrorResult -> {
-                flowOf(ErrorResult(throwable = data.throwable, message = data.message))
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun clearTable() = suspendCancellableCoroutine<Unit> { cont ->
+        coroutineScope.launch {
+            dbManager.clearTable().catch { error ->
+                cont.resumeWithException(error)
+            }.collect {
+                cont.resume(Unit) {}
             }
-
-            else -> throw IllegalArgumentException()
         }
     }
-
-    private suspend fun clearTable() = suspendCancellableCoroutine<Unit> { cont ->
-        if (settingPreferenceManager.shouldClearSavedLocation)
-            coroutineScope.launch {
-                dbManager.clearTable().catch { error ->
-                    Timber.e("delete exception is ${error.printStackTrace()}")
-                    cont.resume(Unit) {}
-                }.collect {
-                    saveSettingPreferenceManager.saveClearSavedLocation = false
-                    cont.resume(Unit) {}
-                }
-            }
-    }
 }
-
