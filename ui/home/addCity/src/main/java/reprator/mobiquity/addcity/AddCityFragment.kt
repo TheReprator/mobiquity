@@ -43,7 +43,6 @@ class AddCityFragment : Fragment(R.layout.fragment_addcity), OnMapReadyCallback,
     private val askLocationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
             if (result) {
-                Timber.e("Location permnission granted")
                 initializeService()
                 checkWhetherLocationIsEnabled()
             } else {
