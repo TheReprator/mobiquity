@@ -50,6 +50,10 @@ class CityDetailViewModal @ViewModelInject constructor(
                     withContext(coroutineDispatcherProvider.main) {
                         when (it) {
                             is Success -> {
+                                if (it.data.isEmpty()) {
+                                    _foreCastWeatherList.value = it.data
+                                    return@withContext
+                                }
                                 _todayWeatherItem.value = it.data[0]
                                 _foreCastWeatherList.value = it.data.drop(1)
                             }
