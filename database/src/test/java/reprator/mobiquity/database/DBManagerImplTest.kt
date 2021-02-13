@@ -5,7 +5,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
@@ -43,7 +42,7 @@ class DBManagerImplTest {
             weatherDao.getLocationList()
         } returns input
 
-        val outputResult = dbManager.getLocationList().single()
+        val outputResult = dbManager.getLocationList()
 
         Truth.assertThat(outputResult).isInstanceOf(Success::class.java)
         Truth.assertThat(outputResult.get()).hasSize(0)
@@ -58,7 +57,7 @@ class DBManagerImplTest {
             weatherDao.insertLocation(input)
         } returns expectedOutput
 
-        val outputResult = dbManager.saveLocation(input).single()
+        val outputResult = dbManager.saveLocation(input)
 
         Truth.assertThat(outputResult.get()).isEqualTo(expectedOutput)
     }
@@ -70,7 +69,7 @@ class DBManagerImplTest {
             weatherDao.getLocationList()
         } returns expectedOutput
 
-        val outputResult = dbManager.getLocationList().single()
+        val outputResult = dbManager.getLocationList()
 
         Truth.assertThat(outputResult.get()).isEqualTo(expectedOutput)
         Truth.assertThat(outputResult.get()).hasSize(2)
@@ -84,7 +83,7 @@ class DBManagerImplTest {
             weatherDao.deleteLocation(input)
         } returns expectedOutput
 
-        val outputResult = dbManager.deleteLocation(input).single()
+        val outputResult = dbManager.deleteLocation(input)
 
         Truth.assertThat(outputResult.get()).isEqualTo(expectedOutput)
     }
@@ -96,7 +95,7 @@ class DBManagerImplTest {
             weatherDao.clearTable()
         } returns expectedOutput
 
-        val outputResult = dbManager.clearTable().single()
+        val outputResult = dbManager.clearTable()
 
         Truth.assertThat(outputResult.get()).isEqualTo(expectedOutput)
     }

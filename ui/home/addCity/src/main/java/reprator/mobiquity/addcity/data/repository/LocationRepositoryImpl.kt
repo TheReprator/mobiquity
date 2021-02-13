@@ -1,7 +1,8 @@
 package reprator.mobiquity.addcity.data.repository
 
 import android.location.Location
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import reprator.mobiquity.addcity.data.repository.mapper.LocationMapper
 import reprator.mobiquity.addcity.domain.repository.LocationRepository
 import reprator.mobiquity.base.useCases.MobiQuityResult
@@ -14,7 +15,7 @@ class LocationRepositoryImpl @Inject constructor(
 ) : LocationRepository {
 
     override suspend fun saveLocation(locationModal: Location): Flow<MobiQuityResult<Long>> {
-        return dbManager.saveLocation(locationMapper.map(locationModal))
+        return flowOf(dbManager.saveLocation(locationMapper.map(locationModal)))
     }
 }
 

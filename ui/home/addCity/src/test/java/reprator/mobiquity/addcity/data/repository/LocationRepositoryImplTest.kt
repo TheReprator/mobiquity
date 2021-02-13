@@ -59,7 +59,7 @@ class LocationRepositoryImplTest {
 
             coEvery {
                 dbManager.saveLocation(any())
-            } returns flowOf(output)
+            } returns output
 
             coEvery {
                 locationMapper.map(input)

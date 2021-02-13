@@ -1,11 +1,12 @@
 package reprator.mobiquity.saveCity.data.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import reprator.mobiquity.base.useCases.MobiQuityResult
 import reprator.mobiquity.database.DBManager
-import reprator.mobiquity.saveCity.modal.LocationModal
 import reprator.mobiquity.saveCity.data.repository.mapper.DeleteLocationMapper
 import reprator.mobiquity.saveCity.domain.repository.DeleteLocationRepository
+import reprator.mobiquity.saveCity.modal.LocationModal
 import javax.inject.Inject
 
 class DeleteLocationRepositoryImpl @Inject constructor(
@@ -14,7 +15,7 @@ class DeleteLocationRepositoryImpl @Inject constructor(
 ) : DeleteLocationRepository {
 
     override suspend fun deleteLocation(locationModal: LocationModal): Flow<MobiQuityResult<Int>> {
-        return dbManager.deleteLocation(locationMapper.map(locationModal))
+        return flowOf(dbManager.deleteLocation(locationMapper.map(locationModal)))
     }
 }
 

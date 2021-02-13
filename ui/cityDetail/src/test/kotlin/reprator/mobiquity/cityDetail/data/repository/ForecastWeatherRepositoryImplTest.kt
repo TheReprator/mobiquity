@@ -68,7 +68,7 @@ class ForecastWeatherRepositoryImplTest {
 
             coEvery {
                 forecastWeatherRemoteDataSource.getForecastWeather(any())
-            } returns flowOf(Success(output))
+            } returns Success(output)
 
             val result = forecastWeatherRepository.getForeCastWeatherRepository(input).single()
 

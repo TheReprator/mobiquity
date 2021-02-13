@@ -4,8 +4,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.FragmentComponent
-import kotlinx.coroutines.CoroutineScope
 import reprator.mobiquity.base.SaveSettingPreferenceManager
 import reprator.mobiquity.base.SettingPreferenceManager
 import reprator.mobiquity.database.DBManager
@@ -53,12 +51,11 @@ class SaveCityModule {
     @Provides
     fun provideGetLocationRepository(
         locationMapper: LocationMapper, dbManager: DBManager,
-        coroutineScope: CoroutineScope,
         settingPreferenceManager: SettingPreferenceManager,
         saveSettingPreferenceManager: SaveSettingPreferenceManager
     ): GetLocationRepository {
         return GetLocationRepositoryImpl(
-            locationMapper, dbManager, coroutineScope, settingPreferenceManager,
+            locationMapper, dbManager, settingPreferenceManager,
             saveSettingPreferenceManager
         )
     }

@@ -1,10 +1,7 @@
 package reprator.mobiquity.saveCity.data.repository
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import reprator.mobiquity.base.SaveSettingPreferenceManager
 import reprator.mobiquity.base.SettingPreferenceManager
 import reprator.mobiquity.base.useCases.ErrorResult
@@ -14,25 +11,22 @@ import reprator.mobiquity.database.DBManager
 import reprator.mobiquity.saveCity.data.repository.mapper.LocationMapper
 import reprator.mobiquity.saveCity.domain.repository.GetLocationRepository
 import reprator.mobiquity.saveCity.modal.LocationModal
-import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.resumeWithException
 
 class GetLocationRepositoryImpl @Inject constructor(
     private val locationMapper: LocationMapper,
     private val dbManager: DBManager,
-    private val coroutineScope: CoroutineScope,
     private val settingPreferenceManager: SettingPreferenceManager,
     private val saveSettingPreferenceManager: SaveSettingPreferenceManager,
 ) : GetLocationRepository {
 
     override suspend fun getLocationList(): Flow<MobiQuityResult<List<LocationModal>>> {
         return if (settingPreferenceManager.shouldClearSavedLocation) {
-            clearTable()
+            dbManager.clearTable()
             saveSettingPreferenceManager.saveClearSavedLocation = false
-            flowOf(Success(emptyList<LocationModal>()))
+            flowOf(Success(emptyList()))
         } else
-            when (val data = dbManager.getLocationList().single()) {
+            when (val data = dbManager.getLocationList()) {
                 is Success -> {
                     flowOf(Success(locationMapper.map(data.data)))
                 }
@@ -43,16 +37,5 @@ class GetLocationRepositoryImpl @Inject constructor(
 
                 else -> throw IllegalArgumentException()
             }
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private suspend fun clearTable() = suspendCancellableCoroutine<Unit> { cont ->
-        coroutineScope.launch {
-            dbManager.clearTable().catch { error ->
-                cont.resumeWithException(error)
-            }.collect {
-                cont.resume(Unit) {}
-            }
-        }
     }
 }

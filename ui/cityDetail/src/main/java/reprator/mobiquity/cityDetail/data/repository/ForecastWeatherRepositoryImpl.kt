@@ -17,7 +17,7 @@ class ForecastWeatherRepositoryImpl @Inject constructor(
 ) : ForecastWeatherRepository {
     override suspend fun getForeCastWeatherRepository(requestModal: LocationRequestModal): Flow<MobiQuityResult<List<LocationModal>>> {
         return if (connectionDetector.isInternetAvailable) {
-            forecastWeatherRemoteDataSource.getForecastWeather(requestModal)
+            flowOf(forecastWeatherRemoteDataSource.getForecastWeather(requestModal))
         } else {
             flowOf(ErrorResult(message = "No internet connection."))
         }

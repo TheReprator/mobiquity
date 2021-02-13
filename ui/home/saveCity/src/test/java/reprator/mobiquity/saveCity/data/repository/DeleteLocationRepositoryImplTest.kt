@@ -6,7 +6,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
@@ -16,6 +15,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import reprator.mobiquity.base.useCases.Success
 import reprator.mobiquity.database.DBManager
+import reprator.mobiquity.saveCity.TestFakeData.getLocationEntity
 import reprator.mobiquity.saveCity.data.repository.mapper.DeleteLocationMapper
 import reprator.mobiquity.saveCity.modal.LocationModal
 import reprator.mobiquity.testUtils.MainCoroutineRule
@@ -57,7 +57,11 @@ class DeleteLocationRepositoryImplTest {
 
             coEvery {
                 dbManager.deleteLocation(any())
-            } returns flowOf(output)
+            } returns output
+
+            coEvery {
+                locationMapper.map(any())
+            } returns getLocationEntity()
 
             val result = deleteLocationRepository.deleteLocation(input).single()
 

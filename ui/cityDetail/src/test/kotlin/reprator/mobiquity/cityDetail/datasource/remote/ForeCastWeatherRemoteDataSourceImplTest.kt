@@ -7,9 +7,6 @@ import io.mockk.coEvery
 import io.mockk.coVerifySequence
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
@@ -71,7 +68,7 @@ class ForeCastWeatherRemoteDataSourceImplTest {
             forecastWeatherMapper.map(any())
         } returns output
 
-        val result = foreCastWeatherRemoteDataSource.getForecastWeather(input).single()
+        val result = foreCastWeatherRemoteDataSource.getForecastWeather(input)
 
         Truth.assertThat(result).isInstanceOf(Success::class.java)
         Truth.assertThat((result as Success).data).hasSize(2)
@@ -85,28 +82,13 @@ class ForeCastWeatherRemoteDataSourceImplTest {
     }
 
     @Test
-    fun `fetch list failed from server`() = coroutinesTestRule.runBlockingTest {
-
-        val output = "No Address Associated"
-
-        coEvery {
-            weatherApiService.foreCastWeather(any(), any(), any(), any(), any())
-        }.throws(UnknownHostException(output))
-
-         foreCastWeatherRemoteDataSource.getForecastWeather(input).catch { error ->
-             Truth.assertThat(error).isInstanceOf(UnknownHostException::class.java)
-             Truth.assertThat(error.message).isEqualTo(output)
-        }.collect()
-    }
-
-    @Test
     fun `fetch list failed with errorBody`() = coroutinesTestRule.runBlockingTest {
 
         coEvery {
             weatherApiService.foreCastWeather(any(), any(), any(), any(), any())
         } returns Response.error(404, mockk(relaxed = true))
 
-        val resp = foreCastWeatherRemoteDataSource.getForecastWeather(input).single()
+        val resp = foreCastWeatherRemoteDataSource.getForecastWeather(input)
 
         Truth.assertThat(resp).isInstanceOf(ErrorResult::class.java)
         Truth.assertThat((resp as ErrorResult).throwable).isInstanceOf(HttpException::class.java)

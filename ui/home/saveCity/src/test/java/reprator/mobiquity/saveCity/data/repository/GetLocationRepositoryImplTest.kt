@@ -66,7 +66,6 @@ class GetLocationRepositoryImplTest {
         getLocationRepository = GetLocationRepositoryImpl(
             locationMapper,
             dbManager,
-            coroutineScope,
             settingPreferenceManager,
             saveSettingPreferenceManager
         )
@@ -89,7 +88,7 @@ class GetLocationRepositoryImplTest {
 
             coEvery {
                 dbManager.clearTable()
-            } returns flowOf(outputClearTable)
+            } returns outputClearTable
 
             val result = getLocationRepository.getLocationList().single()
 
@@ -117,7 +116,7 @@ class GetLocationRepositoryImplTest {
 
             coEvery {
                 dbManager.getLocationList()
-            } returns flowOf(Success(input))
+            } returns Success(input)
 
             coEvery {
                 locationMapper.map(any())
@@ -142,7 +141,7 @@ class GetLocationRepositoryImplTest {
 
             coEvery {
                 dbManager.getLocationList()
-            } returns flowOf(ErrorResult(message = output))
+            } returns ErrorResult(message = output)
 
             val result = getLocationRepository.getLocationList().single()
 
