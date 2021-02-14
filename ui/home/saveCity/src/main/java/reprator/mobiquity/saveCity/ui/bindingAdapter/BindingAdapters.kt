@@ -1,11 +1,8 @@
 package reprator.mobiquity.saveCity.ui.bindingAdapter
 
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import reprator.mobiquity.base_android.ui.RefreshProgressBar
 import reprator.mobiquity.saveCity.ui.DeleteSwipeItem
 import reprator.mobiquity.saveCity.ui.SwipeToDeleteCallback
 
@@ -27,17 +24,4 @@ fun RecyclerView.bindRecyclerViewAdapter(
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(this@bindRecyclerViewAdapter)
     }
-}
-
-
-@BindingAdapter(
-    value = ["refreshProgressbar"],
-    requireAll = false
-)
-fun progressBarSetup(progressBar: RefreshProgressBar, isVisible: Boolean) {
-    if (isVisible)
-        progressBar.visibility = VISIBLE
-    else
-        progressBar.visibility = GONE
-    progressBar.isRefreshing = isVisible
 }
