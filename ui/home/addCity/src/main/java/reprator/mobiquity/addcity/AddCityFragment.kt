@@ -133,7 +133,7 @@ class AddCityFragment : Fragment(R.layout.fragment_addcity), OnMapReadyCallback,
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        val binder: LocationTracker.LocalBinder = service as LocationTracker.LocalBinder
+        val binder: LocationTracker.LocationBinder = service as LocationTracker.LocationBinder
         locationBinder = binder.service
         locationBinder!!.setLocationListener(this)
 

@@ -213,22 +213,24 @@ object Libs {
 
     object TestDependencies {
         object Mockk {
-            private const val version = "1.10.4"
+            private const val version = "1.10.5"
             const val unitTest = "io.mockk:mockk:$version"
             const val instrumentedTest = "io.mockk:mockk-android:$version"
         }
 
-        object AndroidXTestInstrumented {
-            private const val version = "1.3.1-alpha03"
+        object AndroidXTest {
+            private const val version = "1.4.0-alpha04"
             const val core = "androidx.test:core:$version"
             const val runner = "androidx.test:runner:$version"
+            const val rules = "androidx.test:rules:$version"
+            const val truth = "androidx.test.ext:truth:$version"
+            const val junit = "androidx.test.ext:junit:1.1.3-alpha04"
         }
 
         const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        const val truth = "com.google.truth:truth:1.1"
         const val jUnit = "junit:junit:4.13"
-        const val extJUnit = "androidx.test.ext:junit:1.1.1"
         const val core = "androidx.arch.core:core-testing:2.1.0"
+        const val roboElectric = "org.robolectric:robolectric:4.5.1"
     }
 }

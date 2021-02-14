@@ -13,7 +13,7 @@ dependencies {
     implementation(project(AppModules.moduleBase))
 
     // Testing
-    api(Libs.TestDependencies.truth)
+    api(Libs.TestDependencies.AndroidXTest.truth)
     api(Libs.TestDependencies.core)
     api(Libs.OkHttp.mockWebServer)
     api(Libs.TestDependencies.jUnit)

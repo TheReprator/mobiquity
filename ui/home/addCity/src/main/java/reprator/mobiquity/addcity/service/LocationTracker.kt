@@ -70,7 +70,7 @@ class LocationTracker : Service() {
      */
     private var mChangingConfiguration = false
 
-    private val mBinder = LocalBinder()
+    private val mBinder = LocationBinder()
 
     override fun onCreate() {
         super.onCreate()
@@ -216,7 +216,7 @@ class LocationTracker : Service() {
 
     private fun isFusedLocationInitialized() = ::mFusedLocationClient.isInitialized
 
-    inner class LocalBinder : Binder() {
+    inner class LocationBinder : Binder() {
         internal val service: LocationTracker
             get() = this@LocationTracker
     }
