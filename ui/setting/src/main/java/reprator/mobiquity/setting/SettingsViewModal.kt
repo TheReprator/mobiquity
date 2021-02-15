@@ -1,19 +1,15 @@
 package reprator.mobiquity.setting
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import reprator.mobiquity.base.SaveSettingPreferenceManager
-import reprator.mobiquity.base.extensions.computationalBlock
-import reprator.mobiquity.base.util.AppCoroutineDispatchers
+import javax.inject.Inject
 
-class SettingsViewModal @ViewModelInject constructor(
-    @Assisted val savedStateHandle: SavedStateHandle,
+@HiltViewModel
+class SettingsViewModal @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val settingPreferenceManager: SaveSettingPreferenceManager,
 ) : ViewModel() {
 

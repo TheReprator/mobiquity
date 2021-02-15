@@ -126,10 +126,7 @@ dependencies {
     implementation(Libs.OkHttp.loggingInterceptor)
 
     implementation(Libs.DaggerHilt.hilt)
-    kapt(Libs.DaggerHilt.hiltCompiler)
     kapt(Libs.DaggerHilt.hiltCompilerAndroid)
-
-    implementation(Libs.DaggerHilt.viewModel)
 
     implementation(Libs.AndroidX.Room.runtime)
     implementation(Libs.AndroidX.Room.ktx)

@@ -198,14 +198,12 @@ object Libs {
 
     object DaggerHilt {
         private const val version = "2.31.2-alpha"
-        private const val androidXversion = "1.0.0-alpha02"
 
         const val classPath = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val hilt = "com.google.dagger:hilt-android:$version"
-        const val hiltCommon = "androidx.hilt:hilt-common:$androidXversion"
         const val hiltCompilerAndroid = "com.google.dagger:hilt-android-compiler:$version"
-        const val hiltCompiler = "androidx.hilt:hilt-compiler:$androidXversion"
-        const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:$androidXversion"
+
+        private const val androidXversion = "1.0.0-alpha02"
         const val work = "androidx.hilt:hilt-work:$androidXversion"
 
         const val hiltAndroidTest = "com.google.dagger:hilt-android-testing:$version"

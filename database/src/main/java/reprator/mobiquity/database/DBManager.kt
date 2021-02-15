@@ -6,7 +6,6 @@ import reprator.mobiquity.base.util.safeApiCall
 import javax.inject.Inject
 
 interface DBManager {
-
     suspend fun saveLocation(locationEntity: LocationEntity): MobiQuityResult<Long>
     suspend fun getLocationList(): MobiQuityResult<List<LocationEntity>>
     suspend fun deleteLocation(locationEntity: LocationEntity): MobiQuityResult<Int>

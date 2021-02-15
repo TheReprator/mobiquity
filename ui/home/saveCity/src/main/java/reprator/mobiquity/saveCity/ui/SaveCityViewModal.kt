@@ -1,9 +1,8 @@
 package reprator.mobiquity.saveCity.ui
 
 import androidx.annotation.VisibleForTesting
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
@@ -16,21 +15,24 @@ import reprator.mobiquity.saveCity.domain.usecase.DeleteLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.GetLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.SearchItemUseCase
 import reprator.mobiquity.saveCity.modal.LocationModal
+import javax.inject.Inject
 
-class SaveCityViewModal @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle,
+@HiltViewModel
+class SaveCityViewModal @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
     private val locationUseCase: GetLocationUseCase,
     private val deleteLocationUseCase: DeleteLocationUseCase,
     private val searchItemUseCase: SearchItemUseCase
 ) : ViewModel(), DeleteSwipeItem {
 
-    companion object{
+    companion object {
         private const val KEY_SEARCH = "searchQuery"
         private const val DEBOUNCE_TIME = 250L
     }
+
     private val _searchQuery = MutableStateFlow("")
-    val searchQuery:StateFlow<String> =_searchQuery
+    val searchQuery: StateFlow<String> = _searchQuery
 
     @VisibleForTesting
     val _bookMarkListManipulated: MutableLiveData<List<LocationModal>> =

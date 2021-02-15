@@ -3,6 +3,8 @@ package reprator.mobiquity.addcity
 import android.content.Context
 import android.location.LocationManager
 import android.provider.Settings
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.ActivityScoped
 import reprator.mobiquity.base_android.util.isAndroidPOrLater
 import javax.inject.Inject
 
@@ -10,7 +12,8 @@ interface IsLocationEnabled {
     fun isLocationEnabled(): Boolean
 }
 
-class IsLocationEnabledImpl @Inject constructor(private val context: Context) : IsLocationEnabled {
+@ActivityScoped
+class IsLocationEnabledImpl @Inject constructor(@ActivityContext private val context: Context) : IsLocationEnabled {
     override fun isLocationEnabled(): Boolean {
 
         return if (isAndroidPOrLater) {
