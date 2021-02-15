@@ -16,7 +16,7 @@ class PermissionHelperImpl @Inject constructor(private val context: Context) : P
     }
 
     override fun hasPermissions(permission: String): Boolean {
-        return hasPermissions(permission)
+        return hasPermissions(*arrayOf(permission))
     }
 
     override fun hasPermissions(vararg perms: String): Boolean {
