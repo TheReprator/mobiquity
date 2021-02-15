@@ -1,5 +1,6 @@
 package reprator.mobiquity.saveCity.data.repository
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import reprator.mobiquity.base.SaveSettingPreferenceManager
@@ -13,6 +14,7 @@ import reprator.mobiquity.saveCity.domain.repository.GetLocationRepository
 import reprator.mobiquity.saveCity.modal.LocationModal
 import javax.inject.Inject
 
+@ViewModelScoped
 class GetLocationRepositoryImpl @Inject constructor(
     private val locationMapper: LocationMapper,
     private val dbManager: DBManager,

@@ -1,12 +1,14 @@
 package reprator.mobiquity.implementation
 
 import androidx.navigation.NavController
+import dagger.hilt.android.scopes.ActivityScoped
 import reprator.mobiquity.navigation.AppNavigator
 import reprator.mobiquity.navigation.HIDE_TOOLBAR
 import reprator.mobiquity.navigation.HOME_HIDE_BOTTOM_NAVIGATION_VIEW
 import reprator.mobiquity.saveCity.ui.SaveCityFragmentDirections
 import javax.inject.Inject
 
+@ActivityScoped
 class MobiquityAppNavigatorImpl @Inject constructor() : AppNavigator {
 
     override fun navigateToCityDetailScreen(
@@ -31,7 +33,11 @@ class MobiquityAppNavigatorImpl @Inject constructor() : AppNavigator {
     }
 
     private fun toggleBottomNavigationView(navController: NavController, isShow: Boolean) {
-        savedStateHandleCurrentBackStackEntry(navController, HOME_HIDE_BOTTOM_NAVIGATION_VIEW, isShow)
+        savedStateHandleCurrentBackStackEntry(
+            navController,
+            HOME_HIDE_BOTTOM_NAVIGATION_VIEW,
+            isShow
+        )
     }
 
     override fun hideToolbar(navController: NavController) {
@@ -46,7 +52,11 @@ class MobiquityAppNavigatorImpl @Inject constructor() : AppNavigator {
         savedStateHandleCurrentBackStackEntry(navController, HIDE_TOOLBAR, isShow)
     }
 
-    override fun savedStateHandleCurrentBackStackEntry(navController: NavController, key: String, value: Any) {
+    override fun savedStateHandleCurrentBackStackEntry(
+        navController: NavController,
+        key: String,
+        value: Any
+    ) {
         navController.currentBackStackEntry!!.savedStateHandle.set(key, value)
     }
 

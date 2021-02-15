@@ -80,7 +80,7 @@ class AddCityFragment : Fragment(R.layout.fragment_addcity), OnMapReadyCallback,
             childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-        if (!permissionHelper.hasPermissions(requireContext(), PERMISSION_LOCATION))
+        if (!permissionHelper.hasPermissions(PERMISSION_LOCATION))
             askLocationPermission.launch(ACCESS_FINE_LOCATION)
         else {
             initializeService()

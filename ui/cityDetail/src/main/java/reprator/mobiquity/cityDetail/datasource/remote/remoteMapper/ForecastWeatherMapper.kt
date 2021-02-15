@@ -1,5 +1,6 @@
 package reprator.mobiquity.cityDetail.datasource.remote.remoteMapper
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import reprator.mobiquity.base.util.DateUtils
 import reprator.mobiquity.base.util.DateUtils.Companion.DD_MMM_YYYY
 import reprator.mobiquity.base.util.DateUtils.Companion.HOUR_MINUTE
@@ -8,6 +9,7 @@ import reprator.mobiquity.cityDetail.datasource.remote.modal.ForecastLocationEnt
 import reprator.mobiquity.cityDetail.modals.LocationModal
 import javax.inject.Inject
 
+@ViewModelScoped
 class ForecastWeatherMapper @Inject constructor(private val dateUtils: DateUtils) :
     Mapper<ForecastLocationEntity, List<LocationModal>> {
 

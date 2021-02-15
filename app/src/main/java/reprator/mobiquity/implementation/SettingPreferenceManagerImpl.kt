@@ -4,7 +4,9 @@ import android.content.SharedPreferences
 import reprator.mobiquity.base.MeasureMentUnitType
 import reprator.mobiquity.base.SaveSettingPreferenceManager
 import reprator.mobiquity.base.SettingPreferenceManager
+import javax.inject.Singleton
 
+@Singleton
 class SettingPreferenceManagerImpl(
     private val sharedPreferences: SharedPreferences
 ) : SettingPreferenceManager, SaveSettingPreferenceManager {

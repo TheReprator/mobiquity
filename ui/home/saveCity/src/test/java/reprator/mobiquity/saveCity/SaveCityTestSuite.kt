@@ -24,4 +24,4 @@ import reprator.mobiquity.saveCity.ui.SaveCityViewModalTest
     SearchItemUseCaseTest::class,
     SaveCityViewModalTest::class
 )
-class SaveCitylTestSuite
+class SaveCityTestSuite

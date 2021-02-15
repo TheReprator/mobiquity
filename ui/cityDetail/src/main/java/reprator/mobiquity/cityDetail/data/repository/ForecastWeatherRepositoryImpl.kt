@@ -1,5 +1,6 @@
 package reprator.mobiquity.cityDetail.data.repository
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import reprator.mobiquity.base.useCases.ErrorResult
@@ -11,6 +12,7 @@ import reprator.mobiquity.cityDetail.modals.LocationModal
 import reprator.mobiquity.cityDetail.modals.LocationRequestModal
 import javax.inject.Inject
 
+@ViewModelScoped
 class ForecastWeatherRepositoryImpl @Inject constructor(
     private val forecastWeatherRemoteDataSource: ForecastWeatherRemoteDataSource,
     private val connectionDetector: ConnectionDetector,

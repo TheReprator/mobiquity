@@ -9,11 +9,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import reprator.mobiquity.implementation.MobiQuityRoomDb
 import reprator.mobiquity.database.DBManager
 import reprator.mobiquity.database.DBManagerImpl
 import reprator.mobiquity.database.LocationDao
+import reprator.mobiquity.implementation.MobiQuityRoomDb
 import timber.log.Timber
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -38,12 +39,13 @@ class DBModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun providesCategoryDAO(mobiQuityRoomDb: MobiQuityRoomDb): LocationDao =
         mobiQuityRoomDb.locationDao()
 
+    @Singleton
     @Provides
     fun providesDBManager(locationDao: LocationDao): DBManager =
         DBManagerImpl(locationDao)
-
 }
