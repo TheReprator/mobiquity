@@ -3,7 +3,7 @@ package reprator.mobiquity.saveCity.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.FragmentComponent
 import reprator.mobiquity.base.SaveSettingPreferenceManager
 import reprator.mobiquity.base.SettingPreferenceManager
 import reprator.mobiquity.database.DBManager
@@ -18,7 +18,7 @@ import reprator.mobiquity.saveCity.domain.repository.GetLocationRepository
 import reprator.mobiquity.saveCity.domain.usecase.DeleteLocationUseCase
 import reprator.mobiquity.saveCity.domain.usecase.GetLocationUseCase
 
-@InstallIn(ActivityComponent::class)
+@InstallIn(FragmentComponent::class)
 @Module
 class SaveCityModule {
 

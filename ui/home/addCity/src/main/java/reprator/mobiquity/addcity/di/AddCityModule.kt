@@ -5,8 +5,7 @@ import android.location.Geocoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.qualifiers.ActivityContext
 import reprator.mobiquity.addcity.IsLocationEnabled
 import reprator.mobiquity.addcity.IsLocationEnabledImpl
@@ -17,7 +16,7 @@ import reprator.mobiquity.addcity.domain.repository.LocationRepository
 import reprator.mobiquity.addcity.domain.usecase.LocationUseCase
 import reprator.mobiquity.database.DBManager
 
-@InstallIn(ViewModelComponent::class)
+@InstallIn(FragmentComponent::class)
 @Module
 object AddCityModule {
 
