@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.addcity.databinding.FragmentAddcityBinding
 import reprator.mobiquity.addcity.service.LocationListener
 import reprator.mobiquity.addcity.service.LocationTracker
-import reprator.mobiquity.base_android.PermissionHelper
+import reprator.mobiquity.base.util.PermissionHelper
 import reprator.mobiquity.base_android.extensions.shortToast
 import reprator.mobiquity.base_android.extensions.twoButtonDialog
 import reprator.mobiquity.base_android.util.event.EventObserver

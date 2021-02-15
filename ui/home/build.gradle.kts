@@ -24,7 +24,14 @@ android {
     buildFeatures.viewBinding = true
 
     kotlinOptions {
+        // work-runtime-ktx 2.1.0 and above now requires Java 8
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+
+        // Enable Coroutines and Flow APIs
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.FlowPreview"
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
+        freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.OptIn"
     }
 
     sourceSets {
@@ -50,15 +57,6 @@ android {
     packagingOptions {
         exclude ("META-INF/atomicfu.kotlin_module")
         pickFirst ("META-INF/*")
-    }
-}
-
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
-    generateStubs = true
-    javacOptions {
-        option("-Xmaxerrs", 500)
     }
 }
 

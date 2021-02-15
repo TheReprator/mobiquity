@@ -5,9 +5,8 @@ import android.location.Geocoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import reprator.mobiquity.addcity.ReverseGeoCoding
 import reprator.mobiquity.addcity.data.repository.LocationRepositoryImpl
 import reprator.mobiquity.addcity.data.repository.mapper.LocationMapper
@@ -20,7 +19,7 @@ import reprator.mobiquity.database.DBManager
 object AddCityModule {
 
     @Provides
-    fun provideGeoCoder(@ActivityContext context: Context): Geocoder {
+    fun provideGeoCoder(@ApplicationContext context: Context): Geocoder {
         return Geocoder(context)
     }
 

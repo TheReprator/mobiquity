@@ -1,4 +1,4 @@
-package reprator.mobiquity.base_android
+package reprator.mobiquity.base.util
 
 interface PermissionHelper {
     fun hasPermissions(permission: List<String>): Boolean
