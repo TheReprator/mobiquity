@@ -20,10 +20,14 @@ android {
 dependencies {
     implementation(Libs.Kotlin.stdlib)
 
-    // Android Testing
-    api(Libs.TestDependencies.truth)
     api(Libs.AndroidX.Room.test)
-    api(Libs.TestDependencies.extJUnit)
+
+    // Android Testing
+    api(Libs.TestDependencies.AndroidXTest.truth)
+    api(Libs.TestDependencies.AndroidXTest.junit)
+    api(Libs.TestDependencies.AndroidXTest.core)
+    api(Libs.TestDependencies.AndroidXTest.runner)
+    api(Libs.TestDependencies.AndroidXTest.rules)
     api(Libs.TestDependencies.Mockk.instrumentedTest)
 
     //Hilt
@@ -32,10 +36,6 @@ dependencies {
 
     //workmanager
     api(Libs.AndroidX.Work.test)
-
-    // AndroidX test
-    api(Libs.TestDependencies.AndroidXTestInstrumented.core)
-    api(Libs.TestDependencies.AndroidXTestInstrumented.runner)
 
     // Architecture components testing
     api(Libs.TestDependencies.core)

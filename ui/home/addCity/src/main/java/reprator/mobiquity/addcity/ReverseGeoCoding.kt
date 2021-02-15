@@ -3,9 +3,11 @@ package reprator.mobiquity.addcity
 import android.location.Geocoder
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
+import dagger.hilt.android.scopes.ViewModelScoped
 import timber.log.Timber
 import javax.inject.Inject
 
+@ViewModelScoped
 class ReverseGeoCoding @Inject constructor(private val geocode: Geocoder) {
 
     fun getLocations(latLng: LatLng): Location {

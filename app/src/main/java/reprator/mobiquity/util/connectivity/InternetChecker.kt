@@ -9,7 +9,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import reprator.mobiquity.base.util.ConnectionDetector
 import reprator.mobiquity.util.connectivity.base.ConnectivityProvider
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class InternetChecker @Inject constructor(
     @ApplicationContext private val context: Context,
     lifecycle: Lifecycle, override var isInternetAvailable: Boolean = false

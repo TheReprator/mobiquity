@@ -81,10 +81,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
-
     sourceSets {
         map { it.java.srcDirs("src/${it.name}/kotlin") }
     }
@@ -98,6 +94,9 @@ android {
         pickFirst("META-INF/*")
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -126,10 +125,7 @@ dependencies {
     implementation(Libs.OkHttp.loggingInterceptor)
 
     implementation(Libs.DaggerHilt.hilt)
-    kapt(Libs.DaggerHilt.hiltCompiler)
     kapt(Libs.DaggerHilt.hiltCompilerAndroid)
-
-    implementation(Libs.DaggerHilt.viewModel)
 
     implementation(Libs.AndroidX.Room.runtime)
     implementation(Libs.AndroidX.Room.ktx)

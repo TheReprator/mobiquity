@@ -105,7 +105,7 @@ class AddLocationViewModalTest {
         verifySequence {
             observerSuccess.onChanged(Event(Unit))
         }
-
+        
         Truth.assertThat(listSuccess).isNotEmpty()
         Truth.assertThat(listSuccess).hasSize(1)
     }

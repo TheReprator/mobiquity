@@ -1,10 +1,12 @@
 package reprator.mobiquity.addcity
 
 import android.location.Location
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.catch
@@ -14,12 +16,13 @@ import kotlinx.coroutines.withContext
 import reprator.mobiquity.addcity.domain.usecase.LocationUseCase
 import reprator.mobiquity.base.extensions.computationalBlock
 import reprator.mobiquity.base.useCases.ErrorResult
-import reprator.mobiquity.base.useCases.MobiQuityResult
 import reprator.mobiquity.base.useCases.Success
 import reprator.mobiquity.base.util.AppCoroutineDispatchers
 import reprator.mobiquity.base_android.util.event.Event
+import javax.inject.Inject
 
-class AddLocationViewModal @ViewModelInject constructor(
+@HiltViewModel
+class AddLocationViewModal @Inject constructor(
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
     private val reverseGeoCoding: ReverseGeoCoding,
     private val locationUseCase: LocationUseCase

@@ -23,7 +23,6 @@ private const val CONNECTION_TIME = 90L
 )
 object NetworkModule {
 
-    @Singleton
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
@@ -31,7 +30,6 @@ object NetworkModule {
         }
     }
 
-    @Singleton
     @Provides
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor
@@ -49,8 +47,8 @@ object NetworkModule {
             }.build()
     }
 
-    @Provides
     @Singleton
+    @Provides
     fun createRetrofit(
         okHttpClient: Lazy<OkHttpClient>,
         converterFactory: JacksonConverterFactory

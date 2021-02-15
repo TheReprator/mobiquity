@@ -13,4 +13,4 @@ import reprator.mobiquity.addcity.domain.usecase.LocationUseCaseTest
     LocationUseCaseTest::class,
     AddLocationViewModalTest::class
 )
-class AddCitylTestSuite
+class AddCityTestSuite

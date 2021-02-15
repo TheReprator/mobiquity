@@ -1,5 +1,6 @@
 package reprator.mobiquity.cityDetail.datasource.remote
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import reprator.mobiquity.base.useCases.ErrorResult
 import reprator.mobiquity.base.useCases.MobiQuityResult
 import reprator.mobiquity.base.useCases.Success
@@ -11,6 +12,7 @@ import reprator.mobiquity.cityDetail.modals.LocationModal
 import reprator.mobiquity.cityDetail.modals.LocationRequestModal
 import javax.inject.Inject
 
+@ViewModelScoped
 class ForeCastWeatherRemoteDataSourceImpl @Inject constructor(
     private val weatherApiService: WeatherApiService,
     private val forecastWeatherMapper: ForecastWeatherMapper

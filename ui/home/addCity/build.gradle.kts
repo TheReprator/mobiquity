@@ -21,6 +21,8 @@ android {
 
         val mapKey = propOrDef("API_KEY_MAP", "")
         manifestPlaceholders += mapOf("API_KEY_MAP" to mapKey )
+
+        testInstrumentationRunner = Libs.TestDependencies.testRunner
     }
 
     buildFeatures.dataBinding = true
@@ -93,17 +95,13 @@ dependencies {
     implementation(Libs.DaggerHilt.hilt)
     kapt(Libs.DaggerHilt.hiltCompilerAndroid)
 
-    //ViewModal
-    implementation(Libs.DaggerHilt.viewModel)
-    kapt(Libs.DaggerHilt.hiltCompiler)
-
     testImplementation(project(AppModules.moduleTest))
     testImplementation(project(AppModules.moduleAndroid))
 
-    // https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4
-    testImplementation("org.robolectric:robolectric:4.5.1")
+   // androidTestImplementation(project(AppModules.moduleTest))
+    androidTestImplementation(project(AppModules.moduleAndroid))
 
-
+    testImplementation(Libs.TestDependencies.roboElectric)
 }
 
 fun propOrDef(propertyName: String, defaultValue: Any): Any {

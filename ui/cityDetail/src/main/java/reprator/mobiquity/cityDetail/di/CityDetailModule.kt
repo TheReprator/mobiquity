@@ -3,8 +3,8 @@ package reprator.mobiquity.cityDetail.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.components.ViewModelComponent
 import reprator.mobiquity.base.util.ConnectionDetector
 import reprator.mobiquity.cityDetail.data.datasource.ForecastWeatherRemoteDataSource
 import reprator.mobiquity.cityDetail.data.repository.ForecastWeatherRepositoryImpl
@@ -17,9 +17,9 @@ import reprator.mobiquity.navigation.AppNavigator
 import reprator.mobiquity.navigation.CityDetailNavigator
 import retrofit2.Retrofit
 
-@InstallIn(ActivityComponent::class)
+@InstallIn(ViewModelComponent::class)
 @Module
-class WeatherModule {
+class CityDetailModule {
 
     @Provides
     fun provideForecastWeatherRemoteDataSource(

@@ -23,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import reprator.mobiquity.addcity.databinding.FragmentAddcityBinding
 import reprator.mobiquity.addcity.service.LocationListener
 import reprator.mobiquity.addcity.service.LocationTracker
-import reprator.mobiquity.base_android.PermissionHelper
+import reprator.mobiquity.base.util.PermissionHelper
 import reprator.mobiquity.base_android.extensions.shortToast
 import reprator.mobiquity.base_android.extensions.twoButtonDialog
 import reprator.mobiquity.base_android.util.event.EventObserver
@@ -80,7 +80,7 @@ class AddCityFragment : Fragment(R.layout.fragment_addcity), OnMapReadyCallback,
             childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-        if (!permissionHelper.hasPermissions(requireContext(), PERMISSION_LOCATION))
+        if (!permissionHelper.hasPermissions(PERMISSION_LOCATION))
             askLocationPermission.launch(ACCESS_FINE_LOCATION)
         else {
             initializeService()
@@ -133,7 +133,7 @@ class AddCityFragment : Fragment(R.layout.fragment_addcity), OnMapReadyCallback,
     }
 
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-        val binder: LocationTracker.LocalBinder = service as LocationTracker.LocalBinder
+        val binder: LocationTracker.LocationBinder = service as LocationTracker.LocationBinder
         locationBinder = binder.service
         locationBinder!!.setLocationListener(this)
 

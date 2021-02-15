@@ -1,5 +1,6 @@
 package reprator.mobiquity.saveCity
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import reprator.mobiquity.saveCity.data.repository.DeleteLocationRepositoryImplTest
@@ -11,6 +12,7 @@ import reprator.mobiquity.saveCity.domain.usecase.GetLocationUseCaseTest
 import reprator.mobiquity.saveCity.domain.usecase.SearchItemUseCaseTest
 import reprator.mobiquity.saveCity.ui.SaveCityViewModalTest
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Suite::class)
 @Suite.SuiteClasses(
     DeleteLocationMapperTest::class,
@@ -22,4 +24,4 @@ import reprator.mobiquity.saveCity.ui.SaveCityViewModalTest
     SearchItemUseCaseTest::class,
     SaveCityViewModalTest::class
 )
-class SaveCitylTestSuite
+class SaveCityTestSuite

@@ -81,10 +81,6 @@ dependencies {
     implementation(Libs.DaggerHilt.hilt)
     kapt(Libs.DaggerHilt.hiltCompilerAndroid)
 
-    //ViewModal
-    implementation(Libs.DaggerHilt.viewModel)
-    kapt(Libs.DaggerHilt.hiltCompiler)
-
     testImplementation(project(AppModules.moduleTest))
     testImplementation(project(AppModules.moduleAndroid))
 }
