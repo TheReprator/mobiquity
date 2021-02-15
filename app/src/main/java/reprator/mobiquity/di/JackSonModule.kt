@@ -12,7 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.converter.jackson.JacksonConverterFactory
-import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -34,7 +33,6 @@ class JackSonModule {
     }
 
     @Provides
-    @Singleton
     fun provideJacksonConverterFactory(objectMapper: ObjectMapper): JacksonConverterFactory =
         JacksonConverterFactory.create(objectMapper)
 }

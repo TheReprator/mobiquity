@@ -4,15 +4,16 @@ import reprator.mobiquity.base.useCases.MobiQuityResult
 import reprator.mobiquity.base.useCases.Success
 import reprator.mobiquity.base.util.safeApiCall
 import javax.inject.Inject
+import javax.inject.Singleton
 
 interface DBManager {
-
     suspend fun saveLocation(locationEntity: LocationEntity): MobiQuityResult<Long>
     suspend fun getLocationList(): MobiQuityResult<List<LocationEntity>>
     suspend fun deleteLocation(locationEntity: LocationEntity): MobiQuityResult<Int>
     suspend fun clearTable(): MobiQuityResult<Int>
 }
 
+@Singleton
 class DBManagerImpl @Inject constructor(private val locationDao: LocationDao) : DBManager {
 
     private suspend fun saveLocationDB(locationEntity: LocationEntity): MobiQuityResult<Long> {

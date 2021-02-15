@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DateUtilsImpl @Inject constructor() : DateUtils {
 
     companion object {
@@ -43,7 +45,10 @@ class DateUtilsImpl @Inject constructor() : DateUtils {
         return null
     }
 
-    private fun getSimpleDateFormat(@DateUtils.DateFormat dateFormat: String, locale: Locale = Locale.getDefault()):
+    private fun getSimpleDateFormat(
+        @DateUtils.DateFormat dateFormat: String,
+        locale: Locale = Locale.getDefault()
+    ):
             SimpleDateFormat {
         return SimpleDateFormat(dateFormat, locale)
     }
@@ -54,7 +59,11 @@ class DateUtilsImpl @Inject constructor() : DateUtils {
         return getStringFormat(Date(time), dateFormat)
     }
 
-    override fun format(time: Long,  @DateUtils.DateFormat dateFormat: String, timeZone: TimeZone): String {
+    override fun format(
+        time: Long,
+        @DateUtils.DateFormat dateFormat: String,
+        timeZone: TimeZone
+    ): String {
         val df = getSimpleDateFormat(dateFormat)
         df.timeZone = timeZone
 
@@ -65,14 +74,18 @@ class DateUtilsImpl @Inject constructor() : DateUtils {
         return getStringFormat(date, dateFormat)
     }
 
-    override fun format(date: String, @DateUtils.DateFormat fromDateFormat: String,
-                        @DateUtils.DateFormat toDateFormat: String): String {
+    override fun format(
+        date: String, @DateUtils.DateFormat fromDateFormat: String,
+        @DateUtils.DateFormat toDateFormat: String
+    ): String {
         val dateParsed = parse(date, fromDateFormat)
         return getStringFormat(dateParsed, toDateFormat)
     }
 
-    override fun format(stringDate: String, @DateUtils.DateFormat fromDateFormat: String,
-                        @DateUtils.DateFormat toDateFormat: String, timeZone: String): String {
+    override fun format(
+        stringDate: String, @DateUtils.DateFormat fromDateFormat: String,
+        @DateUtils.DateFormat toDateFormat: String, timeZone: String
+    ): String {
         val date = parse(stringDate, fromDateFormat)
 
         val tm = TimeZone.getTimeZone(timeZone)

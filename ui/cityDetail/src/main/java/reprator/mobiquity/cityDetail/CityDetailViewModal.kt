@@ -1,9 +1,8 @@
 package reprator.mobiquity.cityDetail
 
 import androidx.annotation.VisibleForTesting
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
@@ -16,9 +15,11 @@ import reprator.mobiquity.base.util.AppCoroutineDispatchers
 import reprator.mobiquity.cityDetail.domain.usecase.ForecastWeatherUseCase
 import reprator.mobiquity.cityDetail.modals.LocationModal
 import reprator.mobiquity.cityDetail.modals.LocationRequestModal
+import javax.inject.Inject
 
-class CityDetailViewModal @ViewModelInject constructor(
-    @Assisted val savedStateHandle: SavedStateHandle,
+@HiltViewModel
+class CityDetailViewModal @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val coroutineDispatcherProvider: AppCoroutineDispatchers,
     private val forecastWeatherUseCase: ForecastWeatherUseCase,
     private val settingPreferenceManager: SettingPreferenceManager

@@ -1,5 +1,6 @@
 package reprator.mobiquity.saveCity.data.repository
 
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import reprator.mobiquity.base.useCases.MobiQuityResult
@@ -9,6 +10,7 @@ import reprator.mobiquity.saveCity.domain.repository.DeleteLocationRepository
 import reprator.mobiquity.saveCity.modal.LocationModal
 import javax.inject.Inject
 
+@ViewModelScoped
 class DeleteLocationRepositoryImpl @Inject constructor(
     private val locationMapper: DeleteLocationMapper,
     private val dbManager: DBManager
