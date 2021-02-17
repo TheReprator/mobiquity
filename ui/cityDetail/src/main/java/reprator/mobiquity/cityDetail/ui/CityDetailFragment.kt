@@ -34,7 +34,7 @@ class CityDetailFragment : Fragment(R.layout.fragment_city_detail) {
     @Inject
     lateinit var cityDetailNavigator: CityDetailNavigator
 
-    private val viewModel: CityDetailViewModal by viewModels()
+    private val viewModel by viewModels<CityDetailViewModal>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

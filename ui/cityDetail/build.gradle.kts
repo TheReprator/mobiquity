@@ -17,6 +17,7 @@ android {
             file("proguard-rules.pro")
         )
 
+        testInstrumentationRunner = "reprator.mobiquity.cityDetail.CustomTestRunner"
         resConfigs(AndroidSdk.locales)
     }
 
@@ -32,6 +33,11 @@ android {
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlinx.coroutines.FlowPreview"
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.OptIn"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     sourceSets {
@@ -60,15 +66,6 @@ android {
     }
 }
 
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
-    generateStubs = true
-    javacOptions {
-        option("-Xmaxerrs", 500)
-    }
-}
-
 dependencies {
     implementation(project(AppModules.moduleBase))
     implementation(project(AppModules.moduleBaseAndroid))
@@ -92,4 +89,12 @@ dependencies {
 
     testImplementation(project(AppModules.moduleTest))
     testImplementation(project(AppModules.moduleAndroid))
+
+    androidTestImplementation(project(AppModules.moduleTest))
+    androidTestImplementation(project(AppModules.moduleAndroid))
+
+    androidTestImplementation(Libs.OkHttp.mockWebServer)
+
+    debugImplementation(Libs.TestDependencies.fragmentTesting)
+    kaptAndroidTest(Libs.DaggerHilt.hiltCompilerAndroid)
 }

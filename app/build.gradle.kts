@@ -10,15 +10,6 @@ plugins {
     id(Libs.Plugins.kaptDagger)
 }
 
-kapt {
-    correctErrorTypes = true
-    useBuildCache = true
-    javacOptions {
-        option("-Xmaxerrs", 500)
-    }
-}
-
-
 fun getKeyStoreConfig(defaultSigningConfig: DefaultSigningConfig, propertyFileName: String) {
     val properties = Properties()
     val propFile = File("./signingconfig/$propertyFileName")
@@ -130,8 +121,6 @@ dependencies {
     implementation(Libs.AndroidX.Room.runtime)
     implementation(Libs.AndroidX.Room.ktx)
     kapt(Libs.AndroidX.Room.compiler)
-
-    testImplementation(project(AppModules.moduleTest))
 
     androidTestImplementation(project(AppModules.moduleTest))
     androidTestImplementation(project(AppModules.moduleAndroid))

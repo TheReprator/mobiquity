@@ -57,4 +57,6 @@ dependencies {
     api(Libs.Google.materialWidget)
     api(Libs.AndroidX.coreKtx)
     api(Libs.AndroidX.appcompat)
+
+    api(Libs.TestDependencies.Espresso.idlingResource)
 }

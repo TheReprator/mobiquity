@@ -28,7 +28,14 @@ dependencies {
     api(Libs.TestDependencies.AndroidXTest.core)
     api(Libs.TestDependencies.AndroidXTest.runner)
     api(Libs.TestDependencies.AndroidXTest.rules)
+    api(Libs.TestDependencies.Espresso.core)
+    api(Libs.TestDependencies.Espresso.contrib)
+    api(Libs.TestDependencies.Espresso.intents)
+    api(Libs.TestDependencies.Espresso.web)
+    api(Libs.TestDependencies.Espresso.idlingResource)
     api(Libs.TestDependencies.Mockk.instrumentedTest)
+
+    api(Libs.AndroidX.Navigation.test)
 
     //Hilt
     api(Libs.DaggerHilt.hiltAndroidTest)

@@ -137,7 +137,7 @@ object Libs {
         }
 
         object Navigation {
-            private const val version = "2.3.2"
+            private const val version = "2.3.3"
             const val runtime = "androidx.navigation:navigation-runtime:$version"
             const val runtimeKtx = "androidx.navigation:navigation-runtime-ktx:$version"
             const val fragment = "androidx.navigation:navigation-fragment:$version"
@@ -146,6 +146,7 @@ object Libs {
             const val uiKtx = "androidx.navigation:navigation-ui-ktx:$version"
             const val navigationPlugin =
                 "androidx.navigation:navigation-safe-args-gradle-plugin:$version"
+            const val test = "androidx.navigation:navigation-testing:$version"
         }
 
         object Room {
@@ -198,12 +199,13 @@ object Libs {
 
     object DaggerHilt {
         private const val version = "2.31.2-alpha"
+        private const val androidXversion = "1.0.0-alpha02"
 
         const val classPath = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val hilt = "com.google.dagger:hilt-android:$version"
         const val hiltCompilerAndroid = "com.google.dagger:hilt-android-compiler:$version"
-
-        private const val androidXversion = "1.0.0-alpha02"
+        const val hiltCompiler = "androidx.hilt:hilt-compiler:$androidXversion"
+        const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:$androidXversion"
         const val work = "androidx.hilt:hilt-work:$androidXversion"
 
         const val hiltAndroidTest = "com.google.dagger:hilt-android-testing:$version"
@@ -225,10 +227,20 @@ object Libs {
             const val junit = "androidx.test.ext:junit:1.1.3-alpha04"
         }
 
+        object Espresso {
+            private const val version = "3.4.0-alpha04"
+            const val core = "androidx.test.espresso:espresso-core:$version"
+            const val contrib = "androidx.test.espresso:espresso-contrib:$version"
+            const val intents = "androidx.test.espresso:espresso-intents:$version"
+            const val web = "androidx.test.espresso:espresso-web:$version"
+            const val idlingResource = "androidx.test.espresso:espresso-idling-resource:$version"
+        }
+
         const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         const val jUnit = "junit:junit:4.13"
         const val core = "androidx.arch.core:core-testing:2.1.0"
         const val roboElectric = "org.robolectric:robolectric:4.5.1"
+        const val fragmentTesting = "androidx.fragment:fragment-testing:1.2.0"
     }
 }
